@@ -1,0 +1,138 @@
+<% content_for :header,  javascript_include_tag('admin/formbuilder') %>
+<a class="tooltip" href="/cms_help.pdf">&nbsp;</a>
+
+<% content_for :header, javascript_include_tag( 'tiny_mce/jquery.tinymce', 'admin/tiny_mce_config', 'admin/nodes', 'admin/assets' ) %>
+
+
+<h1>Editing a Form</h1>
+<p>* Required Fields</p>
+
+<% form_for(@form, :as => 'form', :url => (@form.new_record? ? noodall_admin_forms_path : noodall_admin_form_path(@form.id)) ) do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <span class="tooltip" title="Enter a title for this form">&nbsp;</span>
+    <%= f.label :title, 'Title *' %><br/>
+    <span class="input-wrap"><%= f.text_field :title %></span>
+  </p>
+
+  <p>
+    <span class="tooltip" title="Enter a description for this form">&nbsp;</span>
+    <%= f.label :description, 'Description' %><br/>
+    <span class="input-wrap"><%= f.text_area :description, :rows => 3 %></span>
+  </p>
+
+  <p>
+    <span class="tooltip" title="Enter an email address to recieve respsonses from this form">&nbsp;</span>
+    <%= f.label :email, 'Email *' %><br/>
+    <span class="input-wrap"><%= f.text_field :email %></span>
+  </p>
+
+  <div id="form-fields">
+    <fieldset>
+      <div id="content-table">
+        <%= render :partial => 'field_select' %>
+		<p id="text_field" class="field-help">
+			<strong>Examples:</strong> Name, Telephone, Message<br/><br/>
+			A text field can be 1 or more rows. A single row is used for recording something like a name or telephone number, multiple rows for something like a contact message.
+		</p>
+		<p id="select" class="field-help">
+			<strong>Examples:</strong> Types of Enquiry, Types of Postal Delivery
+		</p>
+		<p id="radio" class="field-help">
+			<strong>Examples:</strong> Yes or No Questions, Multiple Choice<br/><br/>
+			The radio button only allows one option to be chosen.
+		</p>
+		<p id="check_box" class="field-help">
+			<strong>Examples:</strong> Selection of Favourite Dishes, Selection of Outdoor Activities<br/><br/>
+			Check boxes can be on or off and unlike radio buttons in any number or combination
+		</p>
+       <table border="0" cellspacing="0" cellpadding="0" class="content">
+        <thead>
+          <tr>
+             <th>
+               Name
+               <span class="tooltip" title="Enter a name for this field.">&nbsp;</span>
+             </th>
+             <th>
+               Type
+               <span class="tooltip" title="The type of form field that will be displayed.">&nbsp;</span>
+             </th>
+             <th>
+               Label
+               <span class="tooltip" title="Enter a label for this field.">&nbsp;</span>
+             </th>
+             <th>
+               Default
+               <span class="tooltip" title="Enter a default value to appear for this field.">&nbsp;</span>
+             </th>
+             <th width="70">
+               Rows
+               <span class="tooltip" title="Enter the number of rows for this field (the default is 1).">&nbsp;</span>
+             </th>
+             <th>
+               Options
+               <span class="tooltip" title="Enter a list of options for this select box (comma seperated).">&nbsp;</span>
+             </th>
+             <th width="96">
+               Required
+               <span class="tooltip" title="Choose if this field is required">&nbsp;</span>
+             </th>
+             <th colspan="2">Arrange</th>
+             <th title="Delete this field" width="80">
+               Delete
+               <span class="tooltip" title="Delete this field">&nbsp;</span>
+             </th>
+           </tr>
+        </thead>
+        <tbody>
+        <% @form.fields.each_with_index do |field, index| %>
+          <%= render :partial => "noodall/admin/fields/#{field.class.name.gsub(/^Noodall::/, '').tableize.singularize}", :locals => {:field => field, :index => index} %>
+        <% end %>
+        </tbody>
+      <tfoot>
+        <tr>
+           <th>
+             Name
+             <span class="tooltip" title="Enter a name for this field.">&nbsp;</span>
+           </th>
+           <th>
+              Type
+              <span class="tooltip" title="The type of form field that will be displayed.">&nbsp;</span>
+            </th>
+           <th>
+             Label
+             <span class="tooltip" title="Enter a label for this field.">&nbsp;</span>
+           </th>
+           <th>
+             Default
+             <span class="tooltip" title="Enter a default value to appear for this field.">&nbsp;</span>
+           </th>
+           <th width="70">
+             Rows
+             <span class="tooltip" title="Enter the number of rows for this field (the default is 1).">&nbsp;</span>
+           </th>
+           <th>
+             Options
+             <span class="tooltip" title="Enter a list of options for this select box (comma seperated).">&nbsp;</span>
+           </th>
+           <th width="96">
+             Required
+             <span class="tooltip" title="Choose if this field is required">&nbsp;</span>
+           </th>
+           <th colspan="2">Arrange</th>
+           <th title="Delete this field" width="80">
+             Delete
+             <span class="tooltip" title="Delete this field">&nbsp;</span>
+           </th>
+         </tr>
+      </tfoot>
+    </table>
+    </div>
+    </fieldset>
+  </div>
+
+  <div class="fixed-form">
+    <%= f.submit @form.new_record? ? 'Create' : 'Update', :disable_with => 'Submitting...', :class => (@form.new_record? ? 'create' : 'update') %>
+    <%= link_to 'Cancel', noodall_admin_forms_path, :class => 'cancel'  %>
+  </div>
+<% end %>

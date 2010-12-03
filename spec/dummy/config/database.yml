@@ -1,0 +1,12 @@
+development:
+  database: noodall-development
+
+test:
+  database: noodallui-test
+
+production:
+  database: noodallui-production
+
+staging:
+  database: noodallui-staging
+

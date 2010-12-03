@@ -1,0 +1,12 @@
+csv << [ 'Name', 'Email' , 'Date', 'IP', 'Form Location']
+
+for field in @form.fields
+  csv[0] << field.name
+end
+for response in @responses
+  response_row = [response.name,response.email,response.created_at.to_formatted_s(:long_dot),response.ip,response.referrer]
+  for field in @form.fields
+    response_row << response.send(field.underscored_name)
+  end
+  csv << response_row
+end

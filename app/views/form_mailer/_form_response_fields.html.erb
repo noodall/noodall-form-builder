@@ -1,0 +1,3 @@
+<% for field in @form.fields %>
+  <%= field.name %>: <%= @response.send(field.underscored_name) if @response.respond_to?(field.underscored_name) %>
+<% end %>

@@ -1,0 +1,8 @@
+<%
+  form = Noodall::Form.find(component.form_id)
+  form_response = response_setup(form)
+%>
+
+<div id="<%= slot_code %>" class="component contact-form">
+  <%= render :partial => 'noodall/form_responses/form', :locals => {:form_response => form_response, :form => form} %>
+</div>

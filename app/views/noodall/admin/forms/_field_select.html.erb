@@ -1,0 +1,11 @@
+  <p>
+    <span class="tooltip" title="Please choose a field type using the drop down list, this will determine the characteristics of the new form field.">&nbsp;</span>
+    <%= label_tag 'field_type', 'Add a new field' %><br/>
+    <select id="field-type" name="field_type">
+      <option value="text_field">Text</option>
+      <option value="select">Select Box</option>
+      <option value="radio">Radio Buttons</option>
+      <option value="check_box">Check Box</option>
+    </select>
+    <%= link_to_function 'Add', "return new_form_field($('#field-type').val());", :class => 'add form-builder' %>
+  </p>

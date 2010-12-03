@@ -1,0 +1,26 @@
+<%= fields_for "form[fields][#{index}]", field do |f| %>
+    <tr>
+      <td>
+        <%= f.hidden_field :_type %><%= f.label :name, 'Name *' %>
+        <%= f.text_field :name, :disabled => field.mandatory? %>
+        <%= f.hidden_field :name if field.mandatory? %>
+      </td>
+      <td>Text box</td>
+      <td><%= f.label :label, 'Label' %><%= f.text_field :label %></td>
+      <td><%= f.label :default, 'Default Value' %><%= f.text_field :default %></td>
+      <td>
+        <%= f.label :rows, 'Number of rows' %>
+        <%= f.text_field :rows, :disabled => field.mandatory? %>
+        <%= f.hidden_field :rows if field.mandatory? %>
+      </td>
+      <td class="center">-</td>
+      <td>
+        <%= f.label :required, 'Required?' %>
+        <%= f.check_box :required, :disabled => field.mandatory? %>
+        <%= f.hidden_field :required if field.mandatory? %>
+      </td>
+      <td width="25" class="up"><a class="page_up" title="Move this field up">up</a></td>
+      <td width="30" class="down"><a class="page_down" title="Move this field down">down</a></td>
+      <td><%= link_to_function 'Delete', 'return delete_form_field(this);', :class => 'delete' unless field.mandatory? %></td>
+    </tr>
+<% end %>

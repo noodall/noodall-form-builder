@@ -1,0 +1,5 @@
+Response from <%= @response.referrer %>,
+
+<%= render 'form_mailer/form_response_fields' %>
+
+Sent from: <%= @response.ip %> at <%= @response.created_at.to_formatted_s(:long_dot) %>

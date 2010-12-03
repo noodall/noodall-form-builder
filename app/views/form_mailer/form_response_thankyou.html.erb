@@ -1,0 +1,19 @@
+Dear <%= "#{@response.name}" %>,
+
+Thank you for getting in contact.
+
+We will be in touch shortly.
+
+Regards
+
+<%= Noodall::UI.app_name %>
+
+
+
+
+-- Original message --
+To: <%= @form.email %>
+From: <%= @response.email %>
+Subject: <%= "#{Noodall::UI.app_name}: Response to the #{@form.title} form." %>
+
+<%= render 'form_mailer/form_response_fields' %>
