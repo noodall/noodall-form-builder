@@ -1,23 +1,21 @@
 class FormMailer < ActionMailer::Base
-  def form_response(form, response)
-    # Email header info MUST be added here
-    recipients  form.email
-    reply_to    response.email
-    subject     "#{Noodall::UI.app_name}: Response to the #{form.title} form."
+  default :from => "from@example.com"
 
-    # Email body substitutions go here
-    body[:form] = form
-    body[:response] = response
+  def form_response(form, response)
+    @form = form
+    @response = response
+
+    mail(:to       => form.email,
+         :reply_to => response.email,
+         :subject  =>   "[#{Noodall::UI.app_name}] Response to the #{form.title} form.")
   end
 
   def form_response_thankyou(form, response)
-    # Email header info MUST be added here
-    recipients  response.email
-    reply_to    form.email
-    subject     "Thank you for getting in contact."
+    @form = form
+    @response = response
 
-    # Email body substitutions go here
-    body[:form] = form
-    body[:response] = response
+    mail(:to       => response.email,
+         :reply_to => form.email,
+         :subject  =>   "[#{Noodall::UI.app_name}] Thank you for getting in contact.")
   end
 end

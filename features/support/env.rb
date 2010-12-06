@@ -48,4 +48,5 @@ Factory.definition_file_paths = [
 Factory.find_definitions
 
 require 'factory_girl/step_definitions'
+require 'csv' #for checking CSV content
 

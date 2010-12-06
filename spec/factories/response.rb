@@ -1,4 +1,4 @@
-Factory.define :response, :class => FormResponse do |response|
+Factory.define :response, :class => Noodall::FormResponse do |response|
   response.name "A User"
   response.email "user@example.com"
   response.ip "127.0.0.1"

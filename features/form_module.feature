@@ -11,6 +11,7 @@ Feature: Form Module
     And select the "Contact Form" component
     Then I should see a form select element containing the exisitng forms
     When I select a form
+    And I press "Save" within the component
     And I press "Publish"
     When I visit the content page
     Then I should see the form I selected
@@ -25,13 +26,10 @@ Feature: Form Module
     And the response should be stored in the database along with the time submitted, IP address, and page it was submitted from
 
   Scenario: Spam Filter
-    Given the spam filter is activated
-    And content exists with a form added via the contact module
-    When a website visitor visits the content
-    And they fill in and submit the form
-    Then it should be checked by a spam filter
-    And it should be rejected if the spam filter deems the response to be spam
-    And the website visitor should see an spam message
+    Given content exists with a form added via the contact module
+    When a form response is deemed to be spam
+    Then it should marked as spam
+    And they should receive no emails
 
   Scenario: Validation
     Given content exists with a form added via the contact module

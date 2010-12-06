@@ -1,4 +1,3 @@
-@cms
 Feature: Form builder
   In order to capture data from website visitors a website editor will be able to create custom forms that can be placed on the website
 
@@ -18,7 +17,7 @@ Feature: Form builder
     And I press "Create"
     Then I should see the new form in the Form List
 
-  @wip
+  @javscript @wip
   Scenario Outline: Add fields
     Given I am creating a form
     When I select "<Field Type>" from "Add a new field"
@@ -35,15 +34,15 @@ Feature: Form builder
   @javscript @wip
   Scenario: Reorder fields
     Given a form exists with the following fields:
-      | Name    | Text            |
-      | Email   | Text            |
-      | Title   | Select: Mr, Mrs |
-      | Message | Text            |
+      | Name    | Text Field            |
+      | Email   | Text Field            |
+      | Title   | Select Field: Mr, Mrs |
+      | Message | Text Field            |
     When I am editing the form
     And I click the "up" arrow next to "Title" twice
-    Then the "Title" feild should be at position 1
+    Then the "Title" field should be at position 1
     When I click the "down" arrow next to "Email" once
-    Then the "Email" feild should be at position 4
+    Then the "Email" field should be at position 4
     When I press "Save"
     And I view the form on the website
     Then I should see the fields in the order I set

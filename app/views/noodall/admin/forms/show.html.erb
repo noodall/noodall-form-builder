@@ -7,7 +7,7 @@
 <h1>Editing a Form</h1>
 <p>* Required Fields</p>
 
-<% form_for(@form, :as => 'form', :url => (@form.new_record? ? noodall_admin_forms_path : noodall_admin_form_path(@form.id)) ) do |f| %>
+<%= form_for(@form, :as => 'form', :url => (@form.new_record? ? noodall_admin_forms_path : noodall_admin_form_path(@form.id)) ) do |f| %>
   <%= f.error_messages %>
   <p>
     <span class="tooltip" title="Enter a title for this form">&nbsp;</span>

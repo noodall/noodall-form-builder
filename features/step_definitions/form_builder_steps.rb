@@ -38,7 +38,7 @@ Then /^I should see the new form in the Form List$/ do
 end
 
 Given /^I am creating a form$/ do
-  visit new_admin_form_path
+  visit new_noodall_admin_form_path
 end
 
 Then /^I should see a new field with the options "([^\"]*)"$/ do |arg1|
@@ -59,16 +59,17 @@ Given /^a form exists that has had many responses$/ do
     responses << Factory(:response)
   end
   form.responses = responses
+  form.save!
 end
 
 When /^I click "([^\"]*)" on the forms row in the Form List$/ do |arg1|
-  within('#content-table table tbody tr:first-child') do |form_row|
-    form_row.click_link arg1
+  within('#content-table table tbody tr:first-child') do
+    click_link arg1
   end
 end
 
 Then /^I should receive a CSV file containing all the responses to that form$/ do
-  assert page.sending_file?
+  CSV.parse(page.body).should have(10).things # 9 rows plus header
 end
 
 
@@ -79,13 +80,13 @@ Given /^forms have been created with the form builder$/ do
 end
 
 Then /^I should see a form select element containing the exisitng forms$/ do
-  Form.all.each do |form|
+  Noodall::Form.all.each do |form|
     page.should have_selector("select#node_wide_slot_0_form_id option:contains('#{form.title}')")
   end
 end
 
 When /^I select a form$/ do
-  @_form = Form.first
+  @_form = Noodall::Form.first
   select @_form.title, :from => 'Form'
 end
 
@@ -115,15 +116,12 @@ Then /^they should see the form$/ do
 end
 
 When /^they fill in and submit the form$/ do
-  @_form = Form.find(@_node.wide_slot_0.form_id)
+  @_form = Noodall::Form.find(@_node.wide_slot_0.form_id)
   @_form.fields.each do |field|
-    case field.class.name
-    when 'TextField'
-      if field.name == 'Email'
-        fill_in "form_response[#{field.underscored_name}]", :with => 'hello@wearebeef.co.uk'
-      else
-        fill_in "form_response[#{field.underscored_name}]", :with => 'Weopunggggggggst'
-      end
+    if field.name == 'Email'
+      fill_in "form_response[#{field.underscored_name}]", :with => 'hello@example.com'
+    else
+      fill_in "form_response[#{field.underscored_name}]", :with => 'Weopunggggggggst'
     end
   end
 
@@ -138,7 +136,7 @@ Then /^the email address of the form should receive an email detailing the infor
 end
 
 Then /^they should receive an email confirming the request has been sent$/ do
-  Then %{"hello@wearebeef.co.uk" should receive an email}
+  Then %{"hello@example.com" should receive an email}
   @_form.fields do |field|
     Then %{they should see "#{field.name}:" in the email body}
   end
@@ -150,7 +148,7 @@ Then /^the response should be stored in the database along with the time submitt
 
   @response.created_at.should_not be nil
   @response.ip.should == '127.0.0.1'
-  @response.referrer.should == node_path(@_node)
+  @response.referrer.should == node_url(@_node)
 end
 
 Then /^it should be checked by a spam filter$/ do
@@ -169,7 +167,7 @@ end
 
 Then /^it should be checked against the validation speficied in the form builder$/ do
   @_form.required_fields.each do |field|
-    within('#errorExplanation') do |error_message|
+    within('#errorExplanation') do
       page.should have_content(field.name)
     end
   end
@@ -183,16 +181,6 @@ Then /^the website visitor should see an error message$/ do
     page.should have_selector('form #errorExplanation')
 end
 
-Given /^the spam filter is activated$/ do
-  class DummyDefensio
-    def post_document(*args)
-      [200, {:spaminess => 1}]
-    end
-  end
-
-  Defensio.should_receive(:new).and_return(DummyDefensio.new())
-end
-
 When /^a website visitor fills in and submits a form$/ do
   When %{they fill in and submit the form}
 end
@@ -200,3 +188,60 @@ end
 When /^they submit the form$/ do
   click_button 'Send'
 end
+
+When /^a form response is deemed to be spam$/ do
+  When %{a website visitor visits the content}
+  defensio_dummy = double("defensio dummy")
+  defensio_dummy.stub(:post_document){ [200, {:spaminess => 1}] }
+
+  Noodall::FormResponse.stub(:defensio).and_return(defensio_dummy)
+  When %{they fill in and submit the form}
+end
+
+Then /^it should marked as spam$/ do
+  Noodall::Form.last.responses.last.approved.should == false
+end
+
+When /^I click "([^"]*)"$/ do |arg1|
+  click_link(arg1)
+end
+
+Given /^a form exists with the following fields:$/ do |table|
+  fields = table.rows_hash.map do |name, type|
+    factory, opts = type.split(': ')
+    if opts.blank?
+      Factory(factory.parameterize('_'), :name => name)
+    else
+      Factory(factory.parameterize('_'), :name => name, :options => opts)
+    end
+  end
+  @_form = Factory(:form, :fields => fields)
+end
+
+When /^I am editing the form$/ do
+  visit noodall_admin_form_path(@_form)
+end
+
+When /^I click the "([^"]*)" arrow next to "([^"]*)" twice$/ do |arg1, arg2|
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^the "([^"]*)" field should be at position (\d+)$/ do |arg1, arg2|
+  pending # express the regexp above with the code you wish you had
+end
+
+When /^I click the "([^"]*)" arrow next to "([^"]*)" once$/ do |arg1, arg2|
+  pending # express the regexp above with the code you wish you had
+end
+
+When /^I view the form on the website$/ do
+  @_node = Factory(:page_a)
+  @_node.wide_slot_0 = Factory(:contact_form, :form_id => @_form.id)
+  @_node.save
+  When %{a website visitor visits the content}
+end
+
+Then /^I should see the fields in the order I set$/ do
+  pending # express the regexp above with the code you wish you had
+end
+

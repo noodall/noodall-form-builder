@@ -4,15 +4,6 @@ PATH
     noodall-form-builder (0.0.1)
       noodall-core
 
-PATH
-  remote: /home/dan/gems/noodall-ui
-  specs:
-    noodall-ui (0.0.12)
-      dynamic_form
-      noodall-core
-      thoughtbot-sortable_table (= 0.0.6)
-      will_paginate (~> 3.0.pre2)
-
 GEM
   remote: http://rubygems.org/
   specs:
@@ -122,6 +113,11 @@ GEM
       mongo_mapper (~> 0.8.6)
       ramdiv-mongo_mapper_acts_as_tree (~> 0.1.1)
       ruby-stemmer
+    noodall-ui (0.0.13)
+      dynamic_form
+      noodall-core
+      thoughtbot-sortable_table (= 0.0.6)
+      will_paginate (~> 3.0.pre2)
     plucky (0.3.6)
       mongo (~> 1.1)
     polyglot (0.3.1)
@@ -199,7 +195,7 @@ DEPENDENCIES
   launchy
   noodall-core
   noodall-form-builder!
-  noodall-ui!
+  noodall-ui
   rails (= 3.0.1)
   rmagick
   rspec-rails (>= 2.0.0.beta)
