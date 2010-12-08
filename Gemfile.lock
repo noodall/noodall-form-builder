@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    noodall-form-builder (0.0.1)
-      noodall-core
+    noodall-form-builder (0.0.2)
+      fastercsv
 
 GEM
   remote: http://rubygems.org/
@@ -193,7 +193,6 @@ DEPENDENCIES
   faker (~> 0.3.1)
   fastercsv
   launchy
-  noodall-core
   noodall-form-builder!
   noodall-ui
   rails (= 3.0.1)
