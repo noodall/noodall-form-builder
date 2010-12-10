@@ -7,7 +7,7 @@ class ContactForm < Noodall::Component
 
   module ClassMethods
     def form_options
-      lists = Noodall::Form.all(:order => 'title ASC')
+      lists = Noodall::Form.all(:fields => [:id, :title], :order => 'title ASC')
       lists.collect{|l| [l.title, l.id.to_s]}
     end
 
