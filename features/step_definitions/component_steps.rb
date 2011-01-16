@@ -27,6 +27,7 @@ end
 When /^(?:|I )press "([^"]*)" within the component$/ do |button|
   within "#fancybox-inner" do
     click_button(button)
+    sleep 3
   end
 end
 
