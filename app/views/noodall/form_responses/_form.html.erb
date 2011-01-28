@@ -6,7 +6,9 @@
 <%    for field in form.fields %>
 <%      field_label = (field.label.blank? ? field.name : field.label) %>
       <div class="form-wrap">
-        <%= (f.label field.underscored_name, field_label unless field._type == 'Noodall::Radio') %><%= (field.required ? content_tag('span', ' *', :class => 'required') : '') %>
+      <% unless field._type == 'Noodall::Radio' %>
+        <%= (f.label field.underscored_name, field_label) %><%= (field.required ? content_tag('span', ' *', :class => 'required') : '') %>
+      <% end %>
 
 <%     case field._type.gsub(/^.*::/,'')
        when 'TextField'
@@ -20,6 +22,7 @@
 <%     when 'Radio' %>
         <fieldset>
           <legend><%= field_label %></legend>
+          <%= (field.required ? content_tag('span', ' *', :class => 'required') : '') %>
           <span class="radio-wrapper">
 <%       field.options.split(',').each do |option|
            option.strip! %>
