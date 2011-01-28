@@ -1,5 +1,21 @@
-Response from <%= @response.referrer %>,
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <p>Response from <%= @response.referrer %>,</p>
 
+    <table>
+      <thead>
+        <th>Field</th>
+        <th></th>
+      </thead>
+      <tbody>
 <%= render 'form_mailer/form_response_fields' %>
+      </tbody>
+    </table>
 
-Sent from: <%= @response.ip %> at <%= @response.created_at.to_formatted_s(:long_dot) %>
+    <p>Sent from: <%= @response.ip %> at <%= @response.created_at.to_formatted_s(:long_dot) %></p>
+  </body>
+</html>

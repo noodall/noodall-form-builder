@@ -1,19 +1,35 @@
-Dear <%= "#{@response.name}" %>,
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <p>Dear <%= "#{@response.name}" %>,</p>
 
-Thank you for getting in contact.
+<p>Thank you for getting in contact.</p>
 
-We will be in touch shortly.
+<p>We will be in touch shortly.</p>
 
-Regards
-
+<p>Regards<br />
 <%= Noodall::UI.app_name %>
+</p>
 
 
+<p>
+<strong>Original message</strong><br />
+To: <%= @form.email %><br />
+From: <%= @response.email %><br />
+Subject: <%= "#{Noodall::UI.app_name}: Response to the #{@form.title} form." %><br />
+</p>
 
-
--- Original message --
-To: <%= @form.email %>
-From: <%= @response.email %>
-Subject: <%= "#{Noodall::UI.app_name}: Response to the #{@form.title} form." %>
-
+    <table>
+      <thead>
+        <th>Field</th>
+        <th></th>
+      </thead>
+      <tbody>
 <%= render 'form_mailer/form_response_fields' %>
+      </tbody>
+    </table>
+  </body>
+</html>
