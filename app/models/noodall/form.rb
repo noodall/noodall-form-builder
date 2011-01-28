@@ -10,7 +10,14 @@ module Noodall
   
     MANDATORY_FIELDS = ['Name','Email']
     many :fields, :class => Noodall::Field
-    many :responses, :class => Noodall::FormResponse
+    many :responses, :class => Noodall::FormResponse do
+      def ham
+        self.select {|r| r.spaminess < (self.class.defensio_config['spam_threshold'] || 0.75)}
+      end
+      def spam
+        self.select {|r| r.spaminess >= (self.class.defensio_config['spam_threshold'] || 0.75)}
+      end
+    end
   
     before_save :create_mandatory_fields!
   
