@@ -43,9 +43,9 @@ module Noodall
 Rails.logger.debug "Defensio said: #{response.inspect}"
         return unless status == 200
 
-        self.defensio_signature = response[:signature]
-        self.spaminess = response[:spaminess]
-        self.approved = (response[:spaminess] < (self.class.defensio_config['spam_threshold'] || 0.75))
+        self.defensio_signature = response['signature']
+        self.spaminess = response['spaminess']
+        self.approved = (response['spaminess'] < (self.class.defensio_config['spam_threshold'] || 0.75))
       end
     end
 
@@ -67,7 +67,7 @@ Rails.logger.debug "Defensio said: #{response.inspect}"
         'client' => 'Noodall Form Builder | 1.0 | Beef Ltd | hello@wearebeef.co.uk ',
         'type' => 'other',
         'platform' => 'noodall',
-        'content' => self.form.fields.map{|f| "#{f.name}: #{self.send(f.underscored_name) if self.respond_to?(f.underscored_name)}" },
+        'content' => self.form.fields.map{|f| "#{f.name}: #{self.send(f.underscored_name) if self.respond_to?(f.underscored_name)}" }.join(' '),
         'author-email' => self.email,
         'author-name' => self.name,
         'author-ip' => self.ip
