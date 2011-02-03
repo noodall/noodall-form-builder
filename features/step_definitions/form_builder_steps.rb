@@ -44,11 +44,11 @@ end
 Then /^I should see a new field with the options "([^\"]*)"$/ do |arg1|
   #get index of new fieldset
   index = 0
-  page.should have_selector('#form-fields fieldset') do |fieldset|
+  page.should have_selector('table.content tbody tr') do |fieldset|
     index += 1
   end
 
-  page.should have_selector("fieldset#field-#{index}")
+  page.should have_selector("input#form_fields_#{index}__type")
 end
 
 Given /^a form exists that has had many responses$/ do
@@ -222,16 +222,26 @@ When /^I am editing the form$/ do
   visit noodall_admin_form_path(@_form)
 end
 
-When /^I click the "([^"]*)" arrow next to "([^"]*)" twice$/ do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
+When /^I click the "([^\"]*)" arrow next to "([^\"]*)" twice$/ do |arrow, field|
+  When %{I click the "#{arrow}" arrow next to "#{field}" once}
+  When %{I click the "#{arrow}" arrow next to "#{field}" once}
 end
 
-Then /^the "([^"]*)" field should be at position (\d+)$/ do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
+Then /^the "([^"]*)" field should be at position (\d+)$/ do |field, position|
+  index = 0
+  page.should have_selector('table.content tbody tr') do |fieldset|
+    index = index+1
+    puts fieldset.find('input[value=#{field}]').inspect
+    return unless fieldset.find('input[value=#{field}]').nil?
+  end
+  
+  position.to_i.should == index
 end
 
-When /^I click the "([^"]*)" arrow next to "([^"]*)" once$/ do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
+When /^I click the "([^\"]*)" arrow next to "([^\"]*)" once$/ do |arrow, field|
+  page.should have_selector('table.content tbody tr') do |fieldset|
+    click_link arrow if fieldset.find('input[value=#{field}]')
+  end
 end
 
 When /^I view the form on the website$/ do
@@ -245,3 +255,6 @@ Then /^I should see the fields in the order I set$/ do
   pending # express the regexp above with the code you wish you had
 end
 
+When /^I am editing the last form$/ do
+  visit noodall_admin_form_path(Noodall::Form.last)
+end

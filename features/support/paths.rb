@@ -38,7 +38,8 @@ module NavigationHelpers
       node_path(node)
     when /^that page$/
       node_path(@_content)
-
+    when /^the form builder admin page$/
+      noodall_admin_forms_path
     when /^the article list page$/
       node_path(@_content)
     when /content titled "([^\"]*)"$/

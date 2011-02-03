@@ -52,3 +52,15 @@ Feature: Form builder
     When I visit the form builder admin page
     And I click "Download Responses" on the forms row in the Form List
     Then I should receive a CSV file containing all the responses to that form
+
+  @javscript @wip
+  Scenario: Update an existing form with responses
+    Given a form exists that has had many responses
+    When I am editing the last form
+    When I select "Text" from "Add a new field"
+    And I click "Add"
+    And I check "form_fields_3_required"
+    And I press "Update"
+    Then I should be on the form builder admin page
+    And I should see "Form was successfully updated"
+
