@@ -40,7 +40,7 @@ module Noodall
     def check_for_spam
       if self.defensio_signature.blank?
         status, response = self.class.defensio.post_document(self.defensio_attributes)
-
+Rails.logger.debug "Defensio said: #{response.inspect}"
         return unless status == 200
 
         self.defensio_signature = response[:signature]
@@ -79,7 +79,7 @@ module Noodall
     validate :custom_validation
 
     def custom_validation
-      return if required_fields.nil?
+      return if required_fields.nil? || !self.new_record?
       required_fields.each do |field|
         self.add_error(field.underscored_name.to_sym, "can't be empty") if self.send(field.underscored_name).blank?
       end
