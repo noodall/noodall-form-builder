@@ -192,7 +192,7 @@ end
 When /^a form response is deemed to be spam$/ do
   When %{a website visitor visits the content}
   defensio_dummy = double("defensio dummy")
-  defensio_dummy.stub(:post_document){ [200, {:spaminess => 1}] }
+  defensio_dummy.stub(:post_document){ [200, {'spaminess' => 1}] }
 
   Noodall::FormResponse.stub(:defensio).and_return(defensio_dummy)
   When %{they fill in and submit the form}
@@ -234,11 +234,12 @@ Then /^the "([^"]*)" field should be at position (\d+)$/ do |field, position|
     puts fieldset.find('input[value=#{field}]').inspect
     return unless fieldset.find('input[value=#{field}]').nil?
   end
-  
+
   position.to_i.should == index
 end
 
 When /^I click the "([^\"]*)" arrow next to "([^\"]*)" once$/ do |arrow, field|
+  sleep 3
   page.should have_selector('table.content tbody tr') do |fieldset|
     click_link arrow if fieldset.find('input[value=#{field}]')
   end
