@@ -229,19 +229,17 @@ end
 
 Then /^the "([^"]*)" field should be at position (\d+)$/ do |field, position|
   index = 0
-  page.should have_selector('table.content tbody tr') do |fieldset|
+  all('table.content tbody tr').each do |fieldset|
     index = index+1
-    puts fieldset.find('input[value=#{field}]').inspect
-    return unless fieldset.find('input[value=#{field}]').nil?
+    break if fieldset.has_css?("input[value=#{field}]")
   end
 
   position.to_i.should == index
 end
 
 When /^I click the "([^\"]*)" arrow next to "([^\"]*)" once$/ do |arrow, field|
-  sleep 3
-  page.should have_selector('table.content tbody tr') do |fieldset|
-    click_link arrow if fieldset.find('input[value=#{field}]')
+  all('table.content tbody tr').each do |fieldset|
+    fieldset.find("a:contains('#{arrow}')").click if fieldset.has_css?("input[value=#{field}]")
   end
 end
 
@@ -253,7 +251,9 @@ When /^I view the form on the website$/ do
 end
 
 Then /^I should see the fields in the order I set$/ do
-  pending # express the regexp above with the code you wish you had
+  within('div.form-wrap') do
+    page.should have_content("Title")
+  end
 end
 
 When /^I am editing the last form$/ do

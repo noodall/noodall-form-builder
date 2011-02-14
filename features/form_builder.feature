@@ -17,7 +17,7 @@ Feature: Form builder
     And I press "Create"
     Then I should see the new form in the Form List
 
-  @javscript @wip
+  @javascript
   Scenario Outline: Add fields
     Given I am creating a form
     When I select "<Field Type>" from "Add a new field"
@@ -31,7 +31,7 @@ Feature: Form builder
     | Radio      | Name, Label, Default Option, Options, Required |
     | Check Box  | Name, Label, Default state, Required           |
 
-  @javscript @wip
+  @javascript
   Scenario: Reorder fields
     Given a form exists with the following fields:
       | Name    | Text Field            |
@@ -43,7 +43,7 @@ Feature: Form builder
     Then the "Title" field should be at position 1
     When I click the "down" arrow next to "Email" once
     Then the "Email" field should be at position 4
-    When I press "Save"
+    When I press "Update"
     And I view the form on the website
     Then I should see the fields in the order I set
 
@@ -53,7 +53,6 @@ Feature: Form builder
     And I click "Download Responses" on the forms row in the Form List
     Then I should receive a CSV file containing all the responses to that form
 
-  @javscript @wip
   Scenario: Update an existing form with responses
     Given a form exists that has had many responses
     When I am editing the last form
