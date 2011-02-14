@@ -24,6 +24,18 @@
     <span class="input-wrap"><%= f.text_field :email %></span>
   </p>
 
+   <p>
+    <span class="tooltip" title="Enter an message that will displayed once thet have submitted the form">&nbsp;</span>
+    <%= f.label :thank_you_message %><br/>
+    <span class="input-wrap"><%= f.text_area :thank_you_message, :rows => 3 %></span>
+   </p>
+
+   <p>
+    <span class="tooltip" title="Enter a message they will see in the thank you email">&nbsp;</span>
+    <%= f.label :thank_you_email %><br/>
+    <span class="input-wrap"><%= f.text_area :thank_you_email, :rows => 3 %></span>
+  </p>
+
   <div id="form-fields">
     <fieldset>
       <div id="content-table">

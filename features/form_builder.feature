@@ -9,10 +9,12 @@ Feature: Form builder
       | Name        |
       | Email       |
     When I fill the following fields:
-      | Field        | Value                      |
-      | Title        | A Contact Form             |
-      | Description  | So people can get in touch |
-      | Email        | hello@weaarebeef.co.uk     |
+      | Field             | Value                      |
+      | Title             | A Contact Form             |
+      | Description       | So people can get in touch |
+      | Email             | hello@weaarebeef.co.uk     |
+      | Thank you message | Cheers then!               |
+      | Thank you email   | Thaanks for that           |
     And I add the fields I want on the form
     And I press "Create"
     Then I should see the new form in the Form List

@@ -38,3 +38,17 @@ Feature: Form Module
     Then it should be checked against the validation speficied in the form builder
     And it should be rejected if the the response does not meet the validation
     And the website visitor should see an error message
+
+  Scenario: Custom Thank You Messages
+    Given a form exists with the following:
+      | thank_you_message | Thanks for that |
+      | thank_you_email   | Cheers then!    |
+    When I view the form on the website
+    And I fill in the following:
+      | Name | Dave |
+      | Email | spoon@buttonmooon.com |
+    And I press "Send"
+    Then I should see "Thanks for that"
+    And "spoon@buttonmooon.com" should receive an email
+    When I open the email
+    Then I should see "Cheers then!" in the email body

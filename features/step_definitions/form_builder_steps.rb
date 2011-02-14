@@ -259,3 +259,8 @@ end
 When /^I am editing the last form$/ do
   visit noodall_admin_form_path(Noodall::Form.last)
 end
+
+Given /^a form exists with the following:$/ do |fields|
+  @_form = Factory(:form, fields.rows_hash)
+end
+
