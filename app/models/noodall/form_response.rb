@@ -40,12 +40,11 @@ module Noodall
     def check_for_spam
       if self.defensio_signature.blank?
         status, response = self.class.defensio.post_document(self.defensio_attributes)
-Rails.logger.debug "Defensio said: #{response.inspect}"
         return unless status == 200
 
         self.defensio_signature = response['signature']
-        self.spaminess = response['spaminess']
-        self.approved = (response['spaminess'] < (self.class.defensio_config['spam_threshold'] || 0.75))
+        self.spaminess = response['spaminess'] || 0
+        self.approved = (spaminess < (self.class.defensio_config['spam_threshold'] || 0.75))
       end
     end
 
