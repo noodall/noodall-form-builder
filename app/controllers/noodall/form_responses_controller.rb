@@ -1,5 +1,6 @@
 module Noodall
   class FormResponsesController < ApplicationController
+    skip_before_filter :verify_authenticity_token
     # POST /responses
     # POST /responses.xml
     def create
