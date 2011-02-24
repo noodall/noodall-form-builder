@@ -62,6 +62,9 @@ module Noodall
 
       @response.mark_as_spam!
 
+      @form.responses = @form.responses.reject{|r| r == @response }
+      @form.save
+      
       redirect_to(noodall_admin_form_form_responses_url(@form))
     end
 
