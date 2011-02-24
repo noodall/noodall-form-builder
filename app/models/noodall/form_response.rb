@@ -55,7 +55,7 @@ module Noodall
 
         self.defensio_signature = response['signature']
         self.spaminess = response['spaminess'] || 0
-        self.approved = (spaminess < (self.class.defensio_config['spam_threshold'] || 0.75))
+        self.approved = response['allow'] || false
       end
     end
 
