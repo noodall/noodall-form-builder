@@ -10,10 +10,15 @@ module  Noodall
 
     embedded_in :form
 
+    before_save :default_label
+    def default_label
+      self.label = self.name if self.label.blank?
+    end
+    
     def underscored_name
       name.parameterize.gsub('-','_').to_s
     end
-
+    
     def default_class(response)
       'default-value' if response.send(underscored_name.to_sym) == default
     end

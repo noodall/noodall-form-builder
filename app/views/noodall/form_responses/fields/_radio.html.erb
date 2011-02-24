@@ -1,0 +1,13 @@
+        <fieldset>
+          <legend><%= field.label %></legend>
+          <%= (field.required ? content_tag('span', ' *', :class => 'required') : '') %>
+          <span class="radio-wrapper">
+<%       field.options.split(',').each do |option|
+           option.strip! %>
+            <span class="radio">
+              <%= f.radio_button field.underscored_name, option, :checked => (option == form_response.send(field.underscored_name)) %>
+              <%= f.label "#{field.underscored_name}_#{option.parameterize('_')}", option %>
+            </span>
+<%       end %>
+          </span>
+        </fieldset>

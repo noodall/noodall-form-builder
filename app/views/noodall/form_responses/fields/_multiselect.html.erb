@@ -1,0 +1,3 @@
+<%= (f.label field.underscored_name, field.label) %><%= (field.required ? content_tag('span', ' *', :class => 'required') : '') %>
+<% field_options = field.options.split(',').collect{|o| o.strip!;[o,o]} %>
+<%= f.select field.underscored_name, options_for_select(field_options, form_response.send(field.underscored_name)), :multiple => nil, :size => [field_options.size, 10].min %>

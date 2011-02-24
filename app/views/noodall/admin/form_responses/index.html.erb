@@ -20,7 +20,7 @@
 <% @responses.sort_by(&:created_at).reverse.each do |response| %>
     <tr id="form-<%= response.id %>" class="<%=cycle('odd', 'even')%>">
       <td class="edit"><%= mail_to response.email, h(response.name) %></td>
-      <td><%= @form.fields.collect{|f| "<strong>#{f.name}:</strong> #{response.respond_to?(f.underscored_name) ? response.send(f.underscored_name) : ''}" }.join(",&nbsp;").html_safe %></td>
+      <td><%= @form.fields.collect{|f| "<strong>#{f.name}:</strong> #{response.string_value(f.underscored_name)}" }.join(",&nbsp;").html_safe %></td>
       <td><%= h response.created_at.to_formatted_s(:long_dot) %></td>
       <td><%= link_to 'Delete', noodall_admin_form_form_response_path(@form, response), :confirm => 'Are you sure?', :method => :delete, :class => 'delete', :title => 'Delete this response' %>
           <%= link_to 'Mark as Spam', mark_as_spam_noodall_admin_form_form_response_path(@form, response), :class => 'spam', :title => 'Mark this response as spam and delete' %></td>

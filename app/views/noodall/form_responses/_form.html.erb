@@ -4,41 +4,9 @@
 <p class="required"><span>*</span> Required</p>
     <%= error_messages_for :object => form_response %>
 <%    for field in form.fields %>
-<%      field_label = (field.label.blank? ? field.name : field.label) %>
       <div class="form-wrap">
-      <% unless field._type == 'Noodall::Radio' %>
-        <%= (f.label field.underscored_name, field_label) %><%= (field.required ? content_tag('span', ' *', :class => 'required') : '') %>
-      <% end %>
-
-<%     case field._type.gsub(/^.*::/,'')
-       when 'TextField'
-         if field.rows > 1 %>
-           <%= f.text_area field.underscored_name, :cols => 20, :rows => field.rows, :class => field.default_class(form_response) %>
-<%       else %>
-           <%= f.text_field field.underscored_name, :class => field.default_class(form_response) %>
-<%       end
-       when 'Select' %>
-         <%= f.select field.underscored_name, options_for_select(field.options.split(',').collect{|o| o.strip!;[o,o]}, form_response.send(field.underscored_name)) %>
-<%     when 'Radio' %>
-        <fieldset>
-          <legend><%= field_label %></legend>
-          <%= (field.required ? content_tag('span', ' *', :class => 'required') : '') %>
-          <span class="radio-wrapper">
-<%       field.options.split(',').each do |option|
-           option.strip! %>
-            <span class="radio">
-              <%= f.radio_button field.underscored_name, option, :checked => (option == form_response.send(field.underscored_name)) %>
-              <%= f.label "#{field.underscored_name}_#{option.parameterize('_')}", option %>
-            </span>
-<%       end %>
-          </span>
-        </fieldset>
-<%     when 'CheckBox' %>
-           <%= f.check_box field.underscored_name, {}, 'Yes', 'No' %>
-<%     end %>
-
+        <%= render :partial => "noodall/form_responses/fields/#{field._type.gsub(/^.*::/, '').downcase}", :locals => {:form_response => form_response, :f => f, :field => field} %>
       </div>
-
 <%   end %>
 
       <p class="buttons">

@@ -36,6 +36,17 @@ module Noodall
       self.approved == false
     end
 
+    def string_value(name)
+      return '' unless self.respond_to?(name)
+      value = self.send(name)
+
+      if value.is_a?(Array)
+        "[#{value.join(', ')}]"
+      else
+        "Val: #{value}"
+      end
+    end
+
   protected
     def check_for_spam
       if self.defensio_signature.blank?
