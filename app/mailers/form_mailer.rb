@@ -1,5 +1,5 @@
 class FormMailer < ActionMailer::Base
-  default :from => "from@example.com"
+  default :from => Noodall::FormBuilder.noreply_address
 
   def form_response(form, response)
     @form = form
