@@ -41,9 +41,9 @@ module Noodall
       value = self.send(name)
 
       if value.is_a?(Array)
-        "[#{value.join(', ')}]"
+        value.join(', ')
       else
-        "Val: #{value}"
+        value.to_s
       end
     end
 
