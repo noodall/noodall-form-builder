@@ -192,7 +192,7 @@ end
 When /^a form response is deemed to be spam$/ do
   When %{a website visitor visits the content}
   defensio_dummy = double("defensio dummy")
-  defensio_dummy.stub(:post_document){ [200, {'spaminess' => 1}] }
+  defensio_dummy.stub(:post_document){ [200, {'spaminess' => 1, "allow" => false}] }
 
   Noodall::FormResponse.stub(:defensio).and_return(defensio_dummy)
   When %{they fill in and submit the form}

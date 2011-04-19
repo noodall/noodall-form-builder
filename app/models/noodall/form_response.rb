@@ -54,8 +54,8 @@ module Noodall
         return unless status == 200
 
         self.defensio_signature = response['signature']
-        self.spaminess = response['spaminess'] || 0
-        self.approved = response['allow'] || false
+        self.spaminess = response['spaminess']
+        self.approved = response['allow']
       end
     end
 
