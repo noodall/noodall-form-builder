@@ -14,6 +14,8 @@ module Noodall
     before_save :check_for_spam
     attr_protected :approved
 
+    timestamps!
+
     belongs_to :form, :class => Noodall::Form, :foreign_key => 'noodall_form_id'
 
     def required_fields
