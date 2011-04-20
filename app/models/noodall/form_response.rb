@@ -1,6 +1,6 @@
 module Noodall
   class FormResponse
-    include MongoMapper::EmbeddedDocument
+    include MongoMapper::Document
 
     key :name, String
     key :email, String, :format => /.+\@.+\..+/
@@ -11,14 +11,14 @@ module Noodall
     key :defensio_signature, String
     key :spaminess, Float, :default => 0
 
-    def required_fields
-      self.form.fields.select{ |f| f.required? }
-    end
-
     before_save :check_for_spam
     attr_protected :approved
 
-    embedded_in :form
+    belongs_to :form, :class => Noodall::Form, :foreign_key => 'noodall_form_id'
+
+    def required_fields
+      self.form.fields.select{ |f| f.required? }
+    end
 
     def approve!
       self.approved = true

@@ -53,13 +53,9 @@ end
 
 Given /^a form exists that has had many responses$/ do
   form = Factory(:form)
-
-  responses = []
-  9.times do |i|
-    responses << Factory(:response)
+  9.times do
+    Factory(:response, :form => form)
   end
-  form.responses = responses
-  form.save!
 end
 
 When /^I click "([^\"]*)" on the forms row in the Form List$/ do |arg1|
