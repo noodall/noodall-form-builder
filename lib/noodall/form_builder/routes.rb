@@ -15,7 +15,8 @@ module Noodall
               resources :forms do
                 resources :form_responses do
                   member do
-                    get :mark_as_spam
+                    put :mark_as_spam
+                    put :mark_as_not_spam
                   end
                 end
               end

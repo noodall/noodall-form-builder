@@ -33,7 +33,7 @@ module Noodall
       self.save!
       self.class.defensio.put_document(defensio_signature, { :allow => false })
     end
-
+    
     def is_spam?
       self.approved == false
     end
