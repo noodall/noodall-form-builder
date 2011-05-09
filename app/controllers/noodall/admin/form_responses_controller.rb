@@ -66,6 +66,10 @@ module Noodall
     def mark_as_not_spam
       @response = @form.responses.find(params[:id])
       @response.approve!     
+      
+      FormMailer.form_response(@form, @response).deliver unless @form.email.blank?
+      FormMailer.form_response_thankyou(@form, @response).deliver
+      
       redirect_to(noodall_admin_form_form_responses_url(@form))
     end
 

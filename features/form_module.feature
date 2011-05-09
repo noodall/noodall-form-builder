@@ -30,7 +30,15 @@ Feature: Form Module
     When a form response is deemed to be spam
     Then it should marked as spam
     And they should receive no emails
-
+    
+    Given I am viewing the form's responses
+    And I mark the response as not spam
+    
+    Then the email address of the form should receive an email detailing the information submitted
+    And they should receive an email confirming the request has been sent
+    
+    
+    
   Scenario: Validation
     Given content exists with a form added via the contact module
     When a website visitor visits the content

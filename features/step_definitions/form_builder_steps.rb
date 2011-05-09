@@ -189,6 +189,7 @@ When /^a form response is deemed to be spam$/ do
   When %{a website visitor visits the content}
   defensio_dummy = double("defensio dummy")
   defensio_dummy.stub(:post_document){ [200, {'spaminess' => 1, "allow" => false}] }
+  defensio_dummy.stub(:put_document){ [200, {"allow" => false}] }
 
   Noodall::FormResponse.stub(:defensio).and_return(defensio_dummy)
   When %{they fill in and submit the form}
@@ -259,4 +260,13 @@ end
 Given /^a form exists with the following:$/ do |fields|
   @_form = Factory(:form, fields.rows_hash)
 end
+
+Given /^I am viewing the form's responses$/ do
+  visit noodall_admin_form_form_responses_path(@_form)
+end
+
+Given /^I mark the response as not spam$/ do
+  When %{I follow "Not Spam?"} # This is tied to the current page, could be abstracted a little more
+end
+
 
