@@ -9,9 +9,9 @@ Then /^I should see a form with at least the following fields:$/ do |table|
 end
 
 When /^I fill the following fields:$/ do |table|
-  table.rows.each do |row|
-    @new_form_name = row[1] if @new_form_name.nil?
-    fill_in row[0], :with => row[1]
+  table.hashes.each do |row|
+    @new_form_name = row["Value"] if @new_form_name.nil?
+    fill_in row["Field"], :with => row["Value"]
   end
 end
 
