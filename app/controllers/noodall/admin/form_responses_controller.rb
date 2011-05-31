@@ -1,4 +1,12 @@
-require 'fastercsv'
+
+# in ruby 1.9, fastercsv was included as csv
+if RUBY_VERSION =~ /1\.8/
+  require 'fastercsv'
+  Abstracted_CSV_Class = FasterCSV
+else
+  require 'csv'
+  Abstracted_CSV_Class = CSV
+end
 
 module Noodall
   class Admin::FormResponsesController < Noodall::Admin::BaseController
@@ -18,7 +26,7 @@ module Noodall
 
 
         format.csv do
-          csv_string = FasterCSV.generate do |csv|
+          csv_string = Abstracted_CSV_Class.generate do |csv|
             header_row = @form.fields.map do |field|
               field.name
             end
