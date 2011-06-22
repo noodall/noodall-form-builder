@@ -21,6 +21,13 @@ module Noodall
     def required_fields
       self.form.fields.select{ |f| f.required? }
     end
+    
+    def correct_fields?
+      self.form.fields.each do |f|
+        return false unless self.respond_to?(f.name.downcase.to_sym)
+      end
+      return true
+    end
 
     def approve!
       self.approved = true

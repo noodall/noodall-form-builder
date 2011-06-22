@@ -10,7 +10,10 @@ module Noodall
       @form = Noodall::Form.find(params[:form_id])
 
       @form_response = @form.responses.build(params[:form_response])
-
+      
+      #If the form response hasn't been constructed properly (i.e. a random spam POST)
+      raise MongoMapper::DocumentNotFound, "Form response does not match form" unless @form_response.correct_fields?
+      
       @form_response.ip = request.remote_ip
       @form_response.referrer = request.referer if @form_response.referrer.blank?
       @form_response.created_at = Time.zone.now
