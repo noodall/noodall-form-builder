@@ -8,4 +8,14 @@ module FormsHelper
     Noodall::FormResponse.new(defaults)
   end
 
+  def field_type(field)
+    field_type = field._type.gsub(/^.*::/, '').downcase
+    
+    if field_type == "textfield" && field.rows > 1
+      field_type = "textarea"
+    end
+    
+    return field_type
+  end
+
 end
