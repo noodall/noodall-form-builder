@@ -6,7 +6,7 @@ module Noodall
 
     key :title, String, :required => true
     key :description, String
-    key :email, String, :format => /.+\@.+\..+/
+    key :email, String, :format => /^[-a-z0-9_+\.]+\@([-a-z0-9]+\.)+[a-z0-9]{2,4}$/i
     key :thank_you_message, :default => 'Thank you for getting in contact.'
     key :thank_you_email, :default => 'Thank you for getting in contact.'
 
