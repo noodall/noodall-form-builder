@@ -6,7 +6,7 @@ module  Noodall
     key :name, String, :required => true
     key :label, String
     key :default, String
-    key :required, Boolean, :default => false, :required => true
+    key :required, Boolean, :default => false
 
     embedded_in :form
 
