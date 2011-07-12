@@ -30,10 +30,10 @@ Feature: Form Module
     When a form response is deemed to be spam
     Then it should marked as spam
     And they should receive no emails
-    
+
     Given I am viewing the form's responses
     And I mark the response as not spam
-    
+
     Then the email address of the form should receive an email detailing the information submitted
     And they should receive an email confirming the request has been sent
     
@@ -49,6 +49,20 @@ Feature: Form Module
     Then it should be checked against the validation speficied in the form builder
     And it should be rejected if the the response does not meet the validation
     And the website visitor should see an error message
+
+  Scenario Outline: Validate Email Address
+    Given content exists with a form added via the contact module
+    When a website visitor visits the content
+    And fill in "Email" with "<invalid email>"
+    And they submit the form
+    Then I should see "Email is invalid"
+
+    Examples:
+      | invalid email |
+      | steve@moon |
+      | spoon@buttonmooon.com dave@test.com |
+      | spoon@buttonmooon.com; dave@test.com |
+
 
   Scenario: Custom Thank You Messages
     Given a form exists with the following:

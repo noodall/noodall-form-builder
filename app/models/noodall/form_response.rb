@@ -3,7 +3,7 @@ module Noodall
     include MongoMapper::Document
 
     key :name, String
-    key :email, String, :format => /.+\@.+\..+/
+    key :email, String, :format => /^[-a-z0-9_+\.]+\@([-a-z0-9]+\.)+[a-z0-9]{2,4}$/i
     key :ip, String, :required => true
     key :referrer, String, :required => true
     key :created_at, Time, :required => true
@@ -40,7 +40,7 @@ module Noodall
       self.save!
       self.class.defensio.put_document(defensio_signature, { :allow => false })
     end
-    
+
     def is_spam?
       self.approved == false
     end
