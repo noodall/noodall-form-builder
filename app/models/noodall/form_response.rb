@@ -60,12 +60,13 @@ module Noodall
     def check_for_spam
       if self.defensio_signature.blank?
         status, response = self.class.defensio.post_document(self.defensio_attributes)
-        return unless status == 200
+        return true unless status == 200
 
         self.defensio_signature = response['signature']
         self.spaminess = response['spaminess']
         self.approved = response['allow']
       end
+      return true 
     end
 
     def self.defensio
@@ -98,10 +99,11 @@ module Noodall
     validate :custom_validation
 
     def custom_validation
-      return if required_fields.nil? || !self.new_record?
+      return true if required_fields.nil? || !self.new_record?
       required_fields.each do |field|
-        self.add_error(field.underscored_name.to_sym, "can't be empty") if self.send(field.underscored_name).blank?
+        self.errors.add(field.underscored_name.to_sym, "can't be empty") if self.send(field.underscored_name).blank?
       end
+      return true if self.errors.empty? 
     end
   end
 end
