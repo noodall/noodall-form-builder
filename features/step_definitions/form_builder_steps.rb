@@ -65,7 +65,7 @@ When /^I click "([^\"]*)" on the forms row in the Form List$/ do |arg1|
 end
 
 Then /^I should receive a CSV file containing all the responses to that form$/ do
-  CSV.parse(page.body).should have(10).things # 9 rows plus header
+  CSV.parse(page.source).should have(10).things # 9 rows plus header
 end
 
 
