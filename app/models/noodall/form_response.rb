@@ -24,7 +24,7 @@ module Noodall
     
     def correct_fields?
       self.form.fields.each do |f|
-        return false unless self.respond_to?(f.name.downcase.to_sym)
+        return false unless self.respond_to?(f.name.downcase.parameterize("_").to_sym)
       end
       return true
     end

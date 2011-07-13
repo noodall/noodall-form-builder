@@ -1,5 +1,5 @@
 Factory.define :field, :class => Noodall::Field do |field|
-  field.name {Faker::Lorem.words(1).join()}
+  field.name {Faker::Lorem.words(2).join(' ')}
 end
 
 

@@ -32,7 +32,7 @@ Capybara.default_selector = :css
 # pages, more or less in the same way your application would behave in the
 # default production environment. It's not recommended to do this for all
 # of your scenarios, as this makes it hard to discover errors in your application.
-ActionController::Base.allow_rescue = false
+# ActionController::Base.allow_rescue = false
 
 # How to clean your database when transactions are turned off. See
 # http://github.com/bmabey/database_cleaner for more info.
