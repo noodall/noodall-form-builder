@@ -105,5 +105,15 @@ module Noodall
       end
       return true if self.errors.empty? 
     end
+    
+    def method_missing(method)
+      # If the form doesn't have a field that matches this method, act normally. Otherwise, return nil to show the field is empty. 
+      if form.fields.select{|f| f.underscored_name.to_sym == method}.empty? 
+        super
+      else
+        return nil
+      end
+    end
+    
   end
 end
