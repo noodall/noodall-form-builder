@@ -96,5 +96,15 @@ module Noodall
         self.add_error(field.underscored_name.to_sym, "can't be empty") if self.send(field.underscored_name).blank?
       end
     end
+    
+    def method_missing(method)
+      # If the form doesn't have a field that matches this method, act normally. Otherwise, return nil to show the field is empty. 
+      if form.fields.select{|f| f.underscored_name.to_sym == method}.empty? 
+        super
+      else
+        return nil
+      end
+    end
+    
   end
 end
