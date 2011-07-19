@@ -7,6 +7,10 @@ Factory.define :form, :class => Noodall::Form do |form|
     5.times do
       fields << Factory(:text_field)
     end
+    fields << Factory(:check_box_field)
+    fields << Factory(:select_field)
+    fields << Factory(:check_box_field)
+    fields << Factory(:radio_field)
 
     fields
   end
