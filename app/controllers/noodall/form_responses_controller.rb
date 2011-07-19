@@ -10,15 +10,15 @@ module Noodall
       @form = Noodall::Form.find(params[:form_id])
 
       @form_response = @form.responses.build(params[:form_response])
-      
+
       #If the form response hasn't been constructed properly (i.e. a random spam POST)
-      raise MongoMapper::DocumentNotFound, "Form response does not match form" unless @form_response.correct_fields?
-      
+      #raise MongoMapper::DocumentNotFound, "Form response does not match form" unless @form_response.correct_fields?
+
       @form_response.ip = request.remote_ip
       @form_response.referrer = request.referer if @form_response.referrer.blank?
       @form_response.created_at = Time.zone.now
 
-      respond_to do |format|        
+      respond_to do |format|
         if @form_response.valid? and @form_response.save
           if @form_response.is_spam?
             logger.info "Form response was deemed to be spam: #{@form_response.inspect}"

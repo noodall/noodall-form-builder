@@ -10,6 +10,7 @@ Factory.define :select_field, :parent => :field, :class => Noodall::Select do |f
   field.default "Two"
 end
 Factory.define :radio_field, :parent => :select_field, :class => Noodall::Radio do |field|
+  field.options "One,Two,Three"
 end
 Factory.define :check_box_field, :parent => :field, :class => Noodall::CheckBox do |field|
 end

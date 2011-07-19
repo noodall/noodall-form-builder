@@ -88,7 +88,10 @@ end
 
 Then /^I should see the form I selected$/ do
   @_form.fields.each do |field|
-    page.should have_selector("label[for=form_response_#{field.underscored_name}]")
+    case field.class
+    when Noodall::TextField
+      page.should have_selector("label[for=form_response_#{field.underscored_name}]")
+    end
   end
 end
 
@@ -117,7 +120,9 @@ When /^they fill in and submit the form$/ do
     if field.name == 'Email'
       fill_in "form_response[#{field.underscored_name}]", :with => 'hello@example.com'
     else
-      fill_in "form_response[#{field.underscored_name}]", :with => 'Weopunggggggggst'
+      if field.class == Noodall::TextField
+        fill_in "form_response[#{field.underscored_name}]", :with => 'Weopunggggggggst'
+      end
     end
   end
 
