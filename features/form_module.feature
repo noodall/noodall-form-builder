@@ -37,9 +37,9 @@ Feature: Form Module
     Then the email address of the form should receive an email detailing the information submitted
     And they should receive an email confirming the request has been sent
 
-  Scenario: Bad data is POSTed
-    Given content exists with a form added via the contact module
-    Then some random fields are POSTed by a spam bot
+  #Scenario: Bad data is POSTed
+    #Given content exists with a form added via the contact module
+    #Then some random fields are POSTed by a spam bot
     #todo - better way to structure this feature?
 
   Scenario: Validation
