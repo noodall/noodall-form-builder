@@ -3,8 +3,6 @@ class ContactForm < Noodall::Component
 
   has_one :form, :class => Noodall::Form
 
-  allowed_positions :wide
-
   module ClassMethods
     def form_options
       lists = Noodall::Form.all(:fields => [:id, :title], :order => 'title ASC')
