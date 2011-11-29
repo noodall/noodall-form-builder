@@ -16,10 +16,10 @@ gem 'faker', '~> 0.3.1'
 gem 'defensio'
 gem 'email_spec'
 gem 'fastercsv'
-gem 'system_timer'
 gem 'bson_ext'
 
 if RUBY_VERSION < '1.9'
+  gem 'system_timer'
   gem "ruby-debug", ">= 0.10.3"
 end
 
