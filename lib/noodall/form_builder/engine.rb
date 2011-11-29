@@ -11,9 +11,16 @@ module Noodall
         Noodall::UI.menu_items['Forms'] = :noodall_admin_forms_path
       end
 
-      initializer "static assets" do |app|
-        app.middleware.use ::ActionDispatch::Static, "#{root}/public"
+      if Rails::VERSION::MINOR == 0 # if rails 3.0.x
+        initializer "static assets" do |app|
+          app.middleware.use ::ActionDispatch::Static, "#{root}/app/assets"
+        end
+      else
+        initializer "Add noodall assets to precomiler" do |app|
+          app.config.assets.precompile += %w( admin/formbuilder.js )
+        end
       end
+
     end
   end
 end

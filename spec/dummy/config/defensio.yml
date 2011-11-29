@@ -1,16 +1,2 @@
-defaults: &defaults
-  api_key: 6cd604f9b2765b05c5ac729b3594fc49
-  spam_threshold: 0.75
-  
-development:
-  <<: *defaults
-
-test:
-  <<: *defaults
-
-production:
-  <<: *defaults
-
-staging:
-  <<: *defaults
+api_key: 6cd604f9b2765b05c5ac729b3594fc49
 
