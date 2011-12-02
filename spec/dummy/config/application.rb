@@ -4,6 +4,7 @@ require "active_model/railtie"
 require "action_controller/railtie"
 require "action_view/railtie"
 require "action_mailer/railtie"
+require "sprockets/railtie"
 
 Bundler.require
 require "noodall-form-builder"
@@ -40,6 +41,9 @@ module Dummy
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
+
+    # Enable the asset pipeline
+    config.assets.enabled = true
 
     config.middleware.insert_after 'Rack::Lock', 'Dragonfly::Middleware', :noodall_assets, '/media'
   end
