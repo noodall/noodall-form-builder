@@ -1,0 +1,2 @@
+<%= (f.label field.underscored_name, field.label) %><%= (field.required ? content_tag('span', ' *', :class => 'required') : '') %>
+           <%= f.text_area field.underscored_name, :cols => 20, :rows => field.rows, :class => field.default_class(form_response) %>

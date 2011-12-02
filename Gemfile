@@ -2,7 +2,8 @@ source :rubygems
 
 gemspec
 
-gem 'rails', '3.0.1'
+gem 'mm-versionable', '0.2.5'
+gem 'rails', '3.1.3'
 gem 'noodall-ui'
 gem 'capybara', '>= 0.3.9'
 gem 'rspec-rails', '>= 2.0.0.beta'
