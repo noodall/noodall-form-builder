@@ -31,7 +31,6 @@ module Noodall
             end
           end
 
-          flash.now[:notice] = @form.thank_you_message
           format.html
           format.xml  { render :xml => @form, :status => :created, :location => @form }
         else
