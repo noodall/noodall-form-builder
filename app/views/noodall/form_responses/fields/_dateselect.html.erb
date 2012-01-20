@@ -1,0 +1,12 @@
+<%= (f.label field.underscored_name, field.label) %>
+<%= (field.required ? content_tag('span', ' *', :class => 'required') : '') %>
+
+<%= f.select field.underscored_name, options_for_select([], form_response.send(field.underscored_name)) %>
+
+<%= form_response.send(field.underscored_name) %>
+
+<%#= f.date_select(form_response.send(field.underscored_name)) %>
+
+<hr />
+
+<%= debug form_response %>

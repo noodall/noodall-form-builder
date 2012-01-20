@@ -1,0 +1,14 @@
+<%= fields_for "form[fields][#{index}]", field do |f| %>
+    <tr>
+      <td><%= f.hidden_field :_type %><%= f.label :name, 'Name *' %><%= f.text_field :name %></td>
+      <td>Multi-Select box</td>
+      <td><%= f.label :label, 'Label' %><%= f.text_field :label %></td>
+      <td><%= f.label :default, 'Default Option' %><%= f.text_field :default %></td>
+      <td class="center">-</td>
+      <td>-</td>
+      <td><%= f.label :required, 'Required?' %><%= f.check_box :required %></td>
+      <td width="25" class="up"><a class="page_up" title="Move this field up">up</a></td>
+      <td width="30" class="down"><a class="page_down" title="Move this field down">down</a></td>
+      <td><%= link_to_function 'Delete', 'return delete_form_field(this);', :class => 'delete' %></td>
+    </tr>
+<% end %>

@@ -1,5 +1,5 @@
 function new_form_field(type) {
-  if ($.inArray(type, ['text_field', 'select', 'multiselect', 'radio', 'check_box']) == -1) {
+  if ($.inArray(type, ['text_field', 'select', 'multiselect', 'date_select', 'radio', 'check_box']) == -1) {
     alert('Unknown field type.');
   } else {
     // find an index for the new form field (largest index plus one)
