@@ -27,11 +27,11 @@ Feature: Form builder
     Then I should see a new field with the options "<Options>"
 
     Examples:
-    | Field Type | Options                                        |
-    | Text       | Name, Label, Default, Rows, Required           |
-    | Select     | Name, Label, Default Option, Options, Required |
-    | Radio      | Name, Label, Default Option, Options, Required |
-    | Check Box  | Name, Label, Default state, Required           |
+      | Field Type  | Options                                        |
+      | Text        | Name, Label, Default, Rows, Required           |
+      | Select      | Name, Label, Default Option, Options, Required |
+      | Radio       | Name, Label, Default Option, Options, Required |
+      | Check Box   | Name, Label, Default state, Required           |
 
   @javascript
   Scenario: Reorder fields
