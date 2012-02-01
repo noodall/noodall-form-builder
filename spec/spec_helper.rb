@@ -2,6 +2,8 @@
 ENV["RAILS_ENV"] = "test"
 
 require File.expand_path("../dummy/config/environment.rb",  __FILE__)
+require 'faker'
+require 'factory_girl_rails'
 require "rails/test_help"
 require "rspec/rails"
 
@@ -19,11 +21,11 @@ Capybara.default_selector = :css
 # Load support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
-Rspec.configure do |config|
+RSpec.configure do |config|
   # Remove this line if you don't want Rspec's should and should_not
   # methods or matchers
   require 'rspec/expectations'
-  config.include Rspec::Matchers
+  config.include RSpec::Matchers
 
   # == Mock Framework
   config.mock_with :rspec
