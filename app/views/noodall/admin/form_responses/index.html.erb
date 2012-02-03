@@ -21,7 +21,7 @@
 <% @responses.sort_by(&:created_at).reverse.each do |response| %>
     <tr id="form-<%= response.id %>" class="<%=cycle('odd', 'even')%>">
       <td class="edit"><%= mail_to response.email, h(response.name) %></td>
-      <td><%= @form.fields.collect{|f| "<strong>#{f.name}:</strong> #{response.string_value(f.underscored_name)}" }.join(",&nbsp;").html_safe %></td>
+      <td><%= @form.fields.collect{|f| "<strong>#{f.name}:</strong> #{response.send(f.underscored_name)}" }.join(",&nbsp;").html_safe %></td>
       <td><%= h response.created_at.to_formatted_s(:long_dot) %></td>
       <td class="spam <%= 'flagged' unless response.approved %>">
         <% if response.approved  %>

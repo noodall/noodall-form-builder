@@ -32,6 +32,7 @@ Feature: Form builder
       | Select      | Name, Label, Default Option, Options, Required |
       | Radio       | Name, Label, Default Option, Options, Required |
       | Check Box   | Name, Label, Default state, Required           |
+      | Date        | Name, Label, Default, Required                 |
 
   @javascript
   Scenario: Reorder fields

@@ -14,3 +14,5 @@ Factory.define :radio_field, :parent => :select_field, :class => Noodall::Radio 
 end
 Factory.define :check_box_field, :parent => :field, :class => Noodall::CheckBox do |field|
 end
+Factory.define :date_field, :parent => :field, :class => Noodall::DateField do |field|
+end
