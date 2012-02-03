@@ -111,7 +111,7 @@ When /^a website visitor visits the content$/ do
 end
 
 Then /^they should see the form$/ do
-  Then %{I should see the form I selected}
+  step %{I should see the form I selected}
 end
 
 When /^they fill in and submit the form$/ do
@@ -122,24 +122,26 @@ When /^they fill in and submit the form$/ do
     else
       if field.class == Noodall::TextField
         fill_in "form_response[#{field.underscored_name}]", :with => 'Weopunggggggggst'
+      elsif field.class == Noodall::DateField
+        fill_in "form_response[#{field.underscored_name}]", :with => '30/03/1976'
       end
     end
   end
 
-  When %{they submit the form}
+  step %{they submit the form}
 end
 
 Then /^the email address of the form should receive an email detailing the information submitted$/ do
-  Then %{"#{@_form.email}" should receive an email}
+  step %{"#{@_form.email}" should receive an email}
   @_form.fields do |field|
-    Then %{they should see "#{field.name}:" in the email body}
+    step %{they should see "#{field.name}:" in the email body}
   end
 end
 
 Then /^they should receive an email confirming the request has been sent$/ do
-  Then %{"hello@example.com" should receive an email}
+  step %{"hello@example.com" should receive an email}
   @_form.fields do |field|
-    Then %{they should see "#{field.name}:" in the email body}
+    step %{they should see "#{field.name}:" in the email body}
   end
 end
 
@@ -163,7 +165,7 @@ Then /^it should be rejected if the spam filter deems the response to be spam$/ 
 end
 
 Then /^the website visitor should see an spam message$/ do
-  Then %{it should be rejected if the spam filter deems the response to be spam}
+  step %{it should be rejected if the spam filter deems the response to be spam}
 end
 
 Then /^it should be checked against the validation speficied in the form builder$/ do
@@ -175,7 +177,7 @@ Then /^it should be checked against the validation speficied in the form builder
 end
 
 Then /^it should be rejected if the the response does not meet the validation$/ do
-  Then %{it should be checked against the validation speficied in the form builder}
+  step %{it should be checked against the validation speficied in the form builder}
 end
 
 Then /^the website visitor should see an error message$/ do
@@ -183,7 +185,7 @@ Then /^the website visitor should see an error message$/ do
 end
 
 When /^a website visitor fills in and submits a form$/ do
-  When %{they fill in and submit the form}
+  step %{they fill in and submit the form}
 end
 
 When /^they submit the form$/ do
@@ -191,13 +193,13 @@ When /^they submit the form$/ do
 end
 
 When /^a form response is deemed to be spam$/ do
-  When %{a website visitor visits the content}
+  step %{a website visitor visits the content}
   defensio_dummy = double("defensio dummy")
   defensio_dummy.stub(:post_document){ [200, {'spaminess' => 1, "allow" => false}] }
   defensio_dummy.stub(:put_document){ [200, {"allow" => false}] }
 
   Noodall::FormResponse.stub(:defensio).and_return(defensio_dummy)
-  When %{they fill in and submit the form}
+  step %{they fill in and submit the form}
 end
 
 Then /^it should marked as spam$/ do
@@ -225,8 +227,8 @@ When /^I am editing the form$/ do
 end
 
 When /^I click the "([^\"]*)" arrow next to "([^\"]*)" twice$/ do |arrow, field|
-  When %{I click the "#{arrow}" arrow next to "#{field}" once}
-  When %{I click the "#{arrow}" arrow next to "#{field}" once}
+  step %{I click the "#{arrow}" arrow next to "#{field}" once}
+  step %{I click the "#{arrow}" arrow next to "#{field}" once}
 end
 
 Then /^the "([^"]*)" field should be at position (\d+)$/ do |field, position|
@@ -249,7 +251,7 @@ When /^I view the form on the website$/ do
   @_node = Factory(:page_a)
   @_node.wide_slot_0 = Factory(:contact_form, :form_id => @_form.id)
   @_node.save
-  When %{a website visitor visits the content}
+  step %{a website visitor visits the content}
 end
 
 Then /^I should see the fields in the order I set$/ do
@@ -271,7 +273,7 @@ Given /^I am viewing the form's responses$/ do
 end
 
 Given /^I mark the response as not spam$/ do
-  When %{I follow "Not Spam?"} # This is tied to the current page, could be abstracted a little more
+  step %{I follow "Not Spam?"} # This is tied to the current page, could be abstracted a little more
 end
 
 

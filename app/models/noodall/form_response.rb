@@ -2,7 +2,7 @@ module Noodall
   class FormResponse
     include MongoMapper::Document
 
-    key :name, String
+    key :name, String, :required => true
     key :email, String, :format => /^[-a-z0-9_+\.]+\@([-a-z0-9]+\.)+[a-z0-9]{2,4}$/i
     key :ip, String, :required => true
     key :referrer, String, :required => true
@@ -15,19 +15,16 @@ module Noodall
 
     attr_protected :approved
 
+
     timestamps!
 
     belongs_to :form, :class => Noodall::Form, :foreign_key => 'noodall_form_id'
 
-    def required_fields
-      self.form.fields.select{ |f| f.required? }
-    end
-
-    def correct_fields?
-      self.form.fields.each do |f|
-        return false unless self.respond_to?(f.name.downcase.parameterize("_").to_sym)
+    # Overiden to set up keys after find
+    def initialize_from_database(attrs={})
+      super.tap do
+        set_up_keys!
       end
-      return true
     end
 
     def approve!
@@ -46,18 +43,22 @@ module Noodall
       self.approved == false
     end
 
-    def string_value(name)
-      return '' unless self.respond_to?(name)
-      value = self.send(name)
-
-      if value.is_a?(Array)
-        value.join(', ')
-      else
-        value.to_s
-      end
+    # Create appropriate MongoMapper keys for current instance
+    # based on the fields of the form it belongs to
+    def set_up_keys!
+      form.fields.each do |f|
+        class_eval do
+          key f.underscored_name, f.keys['default'].type, :required => f.required, :default => f.default
+        end
+      end if form
     end
 
-  protected
+    # Merge meta keys with real keys
+    def keys
+      super.merge( class_eval( 'keys' ) )
+    end
+
+    protected
     def defensio_configuired?
       defined?(Defensio) && !self.class.defensio_config.blank?
     end
@@ -101,27 +102,6 @@ module Noodall
         'author-name' => self.name,
         'author-ip' => self.ip
       }
-    end
-
-
-  private
-    validate :custom_validation
-
-    def custom_validation
-      return true if required_fields.nil? || !self.new_record?
-      required_fields.each do |field|
-        self.errors.add(field.underscored_name.to_sym, "can't be empty") if self.send(field.underscored_name).blank?
-      end
-      return true if self.errors.empty?
-    end
-
-    def method_missing(method)
-      # If the form doesn't have a field that matches this method, act normally. Otherwise, return nil to show the field is empty.
-      if form.fields.select{|f| f.underscored_name.to_sym == method}.empty?
-        super
-      else
-        return nil
-      end
     end
 
   end

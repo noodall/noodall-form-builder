@@ -1,7 +1,6 @@
 module Noodall
   class Form
     include MongoMapper::Document
-    plugin MongoMapper::Plugins::MultiParameterAttributes
     plugin Noodall::GlobalUpdateTime
 
     key :title, String, :required => true
@@ -18,6 +17,15 @@ module Noodall
       end
       def spam
         self.select {|r| r.spaminess >= (self.class.defensio_config['spam_threshold'] || 0.75)}
+      end
+      def build(attrs={})
+        doc = klass.new
+        apply_scope(doc)
+        doc.set_up_keys!
+        doc.attributes = attrs
+        @target ||= [] unless loaded?
+        @target << doc
+        doc
       end
     end
 

@@ -10,8 +10,8 @@ require File.expand_path("../../../spec/dummy/config/environment.rb",  __FILE__)
 require 'cucumber/formatter/unicode' # Remove this line if you don't want Cucumber Unicode support
 require 'cucumber/rails/rspec'
 require 'cucumber/rails/world'
+require 'email_spec'
 require 'email_spec/cucumber'
-require 'cucumber/web/tableish'
 require 'cucumber/rspec/doubles'
 
 require 'capybara/rails'
@@ -41,6 +41,7 @@ require 'database_cleaner/cucumber'
 DatabaseCleaner.strategy = :truncation
 
 require 'factory_girl'
+require 'faker'
 
 Factory.definition_file_paths = [
   File.expand_path("../../../spec/factories",  __FILE__)
@@ -49,5 +50,5 @@ Factory.find_definitions
 
 require 'factory_girl/step_definitions'
 require 'csv' #for checking CSV content
-require 'ruby-debug'
+#require 'ruby-debug'
 

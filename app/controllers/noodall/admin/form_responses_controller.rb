@@ -41,7 +41,7 @@ module Noodall
                   nil
                 end
               end
-              response_row += [response.created_at.to_formatted_s(:long_dot), response.ip, response.referrer]
+              response_row += [response.created_at.to_formatted_s(:long), response.ip, response.referrer]
               csv << response_row
             end
           end
@@ -67,17 +67,17 @@ module Noodall
 
     def mark_as_spam
       @response = @form.responses.find(params[:id])
-      @response.mark_as_spam!     
+      @response.mark_as_spam!
       redirect_to(noodall_admin_form_form_responses_url(@form))
     end
-    
+
     def mark_as_not_spam
       @response = @form.responses.find(params[:id])
-      @response.approve!     
-      
+      @response.approve!
+
       FormMailer.form_response(@form, @response).deliver unless @form.email.blank?
       FormMailer.form_response_thankyou(@form, @response).deliver
-      
+
       redirect_to(noodall_admin_form_form_responses_url(@form))
     end
 
