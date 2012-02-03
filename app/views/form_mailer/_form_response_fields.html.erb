@@ -1,6 +1,6 @@
 <% for field in @form.fields %>
     <tr>
       <td><%= field.name %></td>
-      <td><%= @response.string_value(field.underscored_name) %></td>
+      <td><%= @response.send(field.underscored_name) %></td>
     </tr>
 <% end %>

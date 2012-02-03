@@ -29,4 +29,7 @@ RSpec.configure do |config|
 
   # == Mock Framework
   config.mock_with :rspec
+
+  config.backtrace_clean_patterns = [
+  ]
 end

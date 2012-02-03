@@ -122,6 +122,8 @@ When /^they fill in and submit the form$/ do
     else
       if field.class == Noodall::TextField
         fill_in "form_response[#{field.underscored_name}]", :with => 'Weopunggggggggst'
+      elsif field.class == Noodall::DateField
+        fill_in "form_response[#{field.underscored_name}]", :with => '30/03/1976'
       end
     end
   end

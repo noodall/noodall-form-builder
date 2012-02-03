@@ -72,6 +72,7 @@ Feature: Form Module
     And I fill in the following:
       | Name | Dave |
       | Email | spoon@buttonmooon.com |
+      | Date | 30/03/1976 |
     And I press "Send"
     Then I should see "Thanks for that"
     And "spoon@buttonmooon.com" should receive an email
