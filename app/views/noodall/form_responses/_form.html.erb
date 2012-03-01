@@ -1,17 +1,17 @@
 <%= form_for form_response, :as => 'form_response', :url => noodall_form_form_responses_path(form.id), :html => { :class => ('default-values' if params[:response].blank?) } do |f| %>
 <%= f.hidden_field :referrer %>
 <h2><%= form.title %></h2>
-<p class="required"><span>*</span> Required</p>
+<p class="form-info"><span class="required">*</span> Required</p>
     <%= error_messages_for :object => form_response %>
 <%    for field in form.fields %>
-      <div class="form-wrap">
+      <fieldset class="<%= field_type(field) %>">
         <%= render :partial => "noodall/form_responses/fields/#{field_type(field)}", :locals => {:form_response => form_response, :f => f, :field => field} %>
-      </div>
+      </fieldset>
 <%   end %>
-
-      <p class="buttons">
-        <%= f.submit 'Send', :id => "form-submit" %>
-        <%= f.submit "Reset Form", :name => 'reset', :type => 'reset', :id => "form-reset" %>
-      </p>
+      
+      <fieldset class="form-actions">
+        <%= f.submit "Submit", :name => 'submit', :id => "form-submit" %>
+        <%= f.submit "Reset Form", :name => 'reset', :type => 'reset', :id => "form-reset" %>        
+      </fieldset>
+      
 <%  end %>
-sdfsdf
