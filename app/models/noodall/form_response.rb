@@ -46,22 +46,12 @@ module Noodall
     # Create appropriate MongoMapper keys for current instance
     # based on the fields of the form it belongs to
     def set_up_keys!
-      # Fixes 1.8.x compatibitlity with Filter Chains
-      class_eval do
-        def self._validate_callbacks
-          FormResponse._validate_callbacks
-        end
-      end if form
-      # End fix
-
-
       form.fields.each do |f|
         class_eval do
           key f.underscored_name, f.keys['default'].type, :required => f.required, :default => f.default
         end
       end if form
     end
-
 
     # Merge meta keys with real keys
     def keys
