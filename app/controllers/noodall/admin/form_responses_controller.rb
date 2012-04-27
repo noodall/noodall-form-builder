@@ -15,15 +15,14 @@ module Noodall
 
     def index
       if @form.nil?
-        @responses = Noodall::FormResponse.all
+        @responses = Noodall::FormResponse.paginate(:per_page => 1000, :page => params[:page])
       else
-        @responses = @form.responses
+        @responses = @form.responses.paginate(:per_page => 1000, :page => params[:page])
       end
 
       respond_to do |format|
         format.html # index.html.erb
         format.xml  { render :xml => @responses }
-
 
         format.csv do
           csv_string = Abstracted_CSV_Class.generate do |csv|
@@ -45,7 +44,7 @@ module Noodall
               csv << response_row
             end
           end
-          send_data csv_string, :filename => "#{@form.title} responses - #{Time.now.to_formatted_s(:db)}.csv",
+          send_data csv_string, :filename => "#{@form.title} responses - #{Time.now.to_formatted_s(:db)}-#{@responses.current_page}.csv",
                                 :type => 'text/csv',
                                 :disposition => 'attachment'
         end

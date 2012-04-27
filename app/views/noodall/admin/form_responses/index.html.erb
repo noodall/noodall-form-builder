@@ -2,11 +2,12 @@
 
 <ul class="choices">
 
-  <li><%= link_to 'Download Responses', noodall_admin_form_form_responses_path(@form, :csv), :class => 'button download', :title => "Download all of these responses." %></li>
+  <li><%= link_to 'Download Responses', noodall_admin_form_form_responses_path(@form, :csv, :page => params[:page]), :class => 'button download', :title => "Download all of these responses." %></li>
 
 </ul>
 
 <div id="content-table">
+<%= will_paginate(@responses) %>
  <table border="0" cellspacing="0" cellpadding="0" class="content">
   <thead>
     <tr>
@@ -45,4 +46,5 @@
     </tr>
   </tfoot>
 </table>
+<%= will_paginate(@responses) %>
 </div>
