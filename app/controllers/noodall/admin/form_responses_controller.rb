@@ -35,7 +35,8 @@ module Noodall
             for response in @responses
               response_row = @form.fields.map do |field|
                 begin
-                  response.send(field.underscored_name)
+                  value = response.send(field.underscored_name)
+                  value.respond_to?(:join) ? value.join(', ') : value
                 rescue NoMethodError => e
                   nil
                 end
