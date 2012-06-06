@@ -15,16 +15,21 @@ module Noodall
 
     def index
       if @form.nil?
-        @responses = Noodall::FormResponse.paginate(:per_page => 1000, :page => params[:page])
+        @responses = Noodall::FormResponse.where
       else
-        @responses = @form.responses.paginate(:per_page => 1000, :page => params[:page])
+        @responses = @form.responses
       end
 
       respond_to do |format|
-        format.html # index.html.erb
-        format.xml  { render :xml => @responses }
+        format.html do
+          @responses = @responses.paginate(:per_page => 100, :page => params[:page])
+        end
 
         format.csv do
+
+          # Only include non-spam responses in CSV download
+          @responses = @responses.where(:approved => true)
+
           csv_string = Abstracted_CSV_Class.generate do |csv|
             header_row = @form.fields.map do |field|
               field.name
