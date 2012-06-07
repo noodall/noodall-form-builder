@@ -15,7 +15,7 @@ module Noodall
               resources :forms do
                 resources :form_responses do
                   collection do
-                    post :download                    match ':type' => 'components#form'
+                    post :download
                   end
                   member do
                     put :mark_as_spam
