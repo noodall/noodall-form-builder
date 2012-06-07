@@ -14,6 +14,9 @@ module Noodall
             namespace 'noodall/admin', :as => 'noodall_admin', :path => 'admin' do
               resources :forms do
                 resources :form_responses do
+                  collection do
+                    post :download                    match ':type' => 'components#form'
+                  end
                   member do
                     put :mark_as_spam
                     put :mark_as_not_spam

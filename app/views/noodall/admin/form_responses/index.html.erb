@@ -1,8 +1,35 @@
+<style>
+.download-csv {
+  display: block !important;
+  width: 122px !important;
+  height: 44px !important;
+  border: 0 !important;
+  background: url(/images/admin/nav.gif) no-repeat 0 -88px !important;
+  font-size: 0px !important;
+  text-align: right !important;
+  float: right;
+  margin-left: 4px;
+}
+
+.download-csv:hover {
+  background-position: -122px -88px !important;
+}
+
+form select {
+  float: left;
+  margin-top: 13px;
+  margin-right: 6px;
+}
+</style>
+
 <h1><%= @form.title %> Responses</h1>
 
 <ul class="choices">
 
-  <li><%= link_to 'Download Responses', noodall_admin_form_form_responses_path(@form, :csv, :page => params[:page]), :class => 'button download', :title => "Download all of these responses." %></li>
+  <%= form_tag(download_noodall_admin_form_form_responses_path(@form)) do %>
+    <%= select_date(Date.current, :order => [:month, :year], :discard_day => true) %>
+    <%= submit_tag "Download", :class => 'download-csv' %>
+  <% end %>
 
 </ul>
 

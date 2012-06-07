@@ -11,51 +11,53 @@ end
 module Noodall
   class Admin::FormResponsesController < Noodall::Admin::BaseController
     include SortableTable::App::Controllers::ApplicationController
-    before_filter :find_form,:set_title
+    before_filter :find_form, :set_title
 
     def index
-      if @form.nil?
-        @responses = Noodall::FormResponse.where
-      else
-        @responses = @form.responses
-      end
+      @responses = @form.responses.paginate(:per_page => 100, :page => params[:page])
+    end
 
-      respond_to do |format|
-        format.html do
-          @responses = @responses.paginate(:per_page => 100, :page => params[:page])
+    def download
+      year = params[:date][:year].to_i
+      month = params[:date][:month].to_i
+
+      from = Date.civil(year, month, 01).to_time
+      to = Date.civil(year, month + 1, 01).to_time
+
+      # Only include non-spam responses in CSV download...
+      responses = @form.responses.where(:approved => true)
+
+      # ...and between the supplied dates
+      responses = responses.where(
+        :created_at => {
+          :$gte => from,
+          :$lt => to
+        }
+      )
+
+      csv_string = Abstracted_CSV_Class.generate do |csv|
+        header_row = @form.fields.map do |field|
+          field.name
         end
+        header_row += ['Date', 'IP', 'Form Location']
+        csv << header_row
 
-        format.csv do
-
-          # Only include non-spam responses in CSV download
-          @responses = @responses.where(:approved => true)
-
-          csv_string = Abstracted_CSV_Class.generate do |csv|
-            header_row = @form.fields.map do |field|
-              field.name
-            end
-            header_row += ['Date', 'IP', 'Form Location']
-            csv << header_row
-
-            for response in @responses
-              response_row = @form.fields.map do |field|
-                begin
-                  value = response.send(field.underscored_name)
-                  value.respond_to?(:join) ? value.join(', ') : value
-                rescue NoMethodError => e
-                  nil
-                end
-              end
-              response_row += [response.created_at.to_formatted_s(:long), response.ip, response.referrer]
-              csv << response_row
+        for response in responses
+          response_row = @form.fields.map do |field|
+            begin
+              value = response.send(field.underscored_name)
+              value.respond_to?(:join) ? value.join(', ') : value
+            rescue NoMethodError => e
+              nil
             end
           end
-          send_data csv_string, :filename => "#{@form.title} responses - #{Time.now.to_formatted_s(:db)}-#{@responses.current_page}.csv",
-                                :type => 'text/csv',
-                                :disposition => 'attachment'
+          response_row += [response.created_at.to_formatted_s(:long), response.ip, response.referrer]
+          csv << response_row
         end
-
       end
+      send_data csv_string, :filename => "#{@form.title} responses - #{Time.now.to_formatted_s(:db)}.csv",
+                            :type => 'text/csv',
+                            :disposition => 'attachment'
     end
 
     def destroy
