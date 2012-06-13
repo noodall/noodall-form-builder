@@ -22,7 +22,10 @@ module Noodall
       month = params[:date][:month].to_i
 
       from = Date.civil(year, month, 01).to_time
-      to = Date.civil(year, month + 1, 01).to_time
+
+      next_month = month + 1
+      next_month = 1 if next_month > 12
+      to = Date.civil(year, next_month, 01).to_time
 
       # Only include non-spam responses in CSV download...
       responses = @form.responses.where(:approved => true)
@@ -55,7 +58,7 @@ module Noodall
           csv << response_row
         end
       end
-      send_data csv_string, :filename => "#{@form.title} responses - #{Time.now.to_formatted_s(:db)}.csv",
+      send_data csv_string, :filename => "#{@form.title} responses #{month}-#{year} #{Time.now.to_formatted_s(:db)}.csv",
                             :type => 'text/csv',
                             :disposition => 'attachment'
     end
