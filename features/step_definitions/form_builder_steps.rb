@@ -192,13 +192,30 @@ When /^they submit the form$/ do
   click_button 'Send'
 end
 
-When /^a form response is deemed to be spam$/ do
-  step %{a website visitor visits the content}
+Given /^we are checking for spam using Defensio$/ do
+  Noodall::FormBuilder.spam_protection = :defensio
+  Noodall::FormBuilder.spam_api_key = '12345'
+
   defensio_dummy = double("defensio dummy")
   defensio_dummy.stub(:post_document){ [200, {'spaminess' => 1, "allow" => false}] }
   defensio_dummy.stub(:put_document){ [200, {"allow" => false}] }
 
-  Noodall::FormResponse.stub(:defensio).and_return(defensio_dummy)
+  spam_checker = Noodall::FormBuilder::DefensioSpamChecker.new
+  spam_checker.stub(:defensio) { defensio_dummy }
+
+  Noodall::FormResponse.stub(:spam_checker).and_return(spam_checker)
+end
+
+Given /^we are checking for spam using Akismet$/ do
+  Noodall::FormBuilder.spam_protection = :akismet
+  Noodall::FormBuilder.spam_api_key = '12345'
+  Noodall::FormBuilder.spam_url = 'http://wearebeef.co.uk'
+
+  Rakismet.stub(:akismet_call){ [true, nil] }
+end
+
+When /^a form response is deemed to be spam$/ do
+  step %{a website visitor visits the content}
   step %{they fill in and submit the form}
 end
 

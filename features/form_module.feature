@@ -25,15 +25,25 @@ Feature: Form Module
     And they should receive an email confirming the request has been sent
     And the response should be stored in the database along with the time submitted, IP address, and page it was submitted from
 
-  Scenario: Spam Filter
-    Given content exists with a form added via the contact module
+  Scenario: Spam Filter using Defensio
+    Given we are checking for spam using Defensio
+    And content exists with a form added via the contact module
     When a form response is deemed to be spam
     Then it should marked as spam
     And they should receive no emails
-
     Given I am viewing the form's responses
     And I mark the response as not spam
+    Then the email address of the form should receive an email detailing the information submitted
+    And they should receive an email confirming the request has been sent
 
+  Scenario: Spam Filter using Akismet
+    Given we are checking for spam using Akismet
+    And content exists with a form added via the contact module
+    When a form response is deemed to be spam
+    Then it should marked as spam
+    And they should receive no emails
+    Given I am viewing the form's responses
+    And I mark the response as not spam
     Then the email address of the form should receive an email detailing the information submitted
     And they should receive an email confirming the request has been sent
 
