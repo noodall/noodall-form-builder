@@ -41,7 +41,9 @@ form select {
       <th>Name</th>
       <th>Fields</th>
       <th width="100">Date</th>
-      <th width="150">Spam</th>
+      <% if spam_protection_configured? %>
+        <th width="150">Spam</th>
+      <% end %>
       <th width="45">Delete</th>
     </tr>
   </thead>
@@ -51,13 +53,15 @@ form select {
       <td class="edit"><%= mail_to response.email, h(response.name) %></td>
       <td><%= @form.fields.collect{|f| "<strong>#{f.name}:</strong> #{response.send(f.underscored_name)}" }.join(",&nbsp;").html_safe %></td>
       <td><%= h response.created_at.to_formatted_s(:long_dot) %></td>
-      <td class="spam <%= 'flagged' unless response.approved %>">
-        <% if response.approved  %>
-          <%= link_to "Spam?", mark_as_spam_noodall_admin_form_form_response_path(@form, response), :method => :put %>
-        <% else %>
-          <%= link_to "Not Spam?", mark_as_not_spam_noodall_admin_form_form_response_path(@form, response), :method => :put %>
-        <% end %>
-      </td>
+      <% if spam_protection_configured? %>
+        <td class="spam <%= 'flagged' unless response.approved %>">
+          <% if response.approved  %>
+            <%= link_to "Spam?", mark_as_spam_noodall_admin_form_form_response_path(@form, response), :method => :put %>
+          <% else %>
+            <%= link_to "Not Spam?", mark_as_not_spam_noodall_admin_form_form_response_path(@form, response), :method => :put %>
+          <% end %>
+        </td>
+      <% end %>
       <td><%= link_to 'Delete', noodall_admin_form_form_response_path(@form, response), :confirm => 'Are you sure?', :method => :delete, :class => 'delete', :title => 'Delete this response' %>
       </td>
     </tr>
@@ -68,7 +72,9 @@ form select {
       <th>Name</th>
       <th>Fields</th>
       <th width="100">Date</th>
-      <th width="150">Spam</th>
+      <% if spam_protection_configured? %>
+        <th width="150">Spam</th>
+      <% end %>
       <th width="45">Delete</th>
     </tr>
   </tfoot>
