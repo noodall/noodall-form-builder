@@ -11,6 +11,7 @@ module Noodall
     key :referrer, String, :required => true
     key :created_at, Time, :required => true
     key :approved, Boolean, :default => false
+    key :checked, Boolean, :default => false
 
     # For Defensio only
     key :defensio_signature, String
@@ -64,7 +65,7 @@ module Noodall
     protected
 
     def check_for_spam
-      return if self.approved == true
+      return if spam_checked?
 
       # If no spam checking is enabled, just approve automatically
       if self.class.spam_checker.nil?
@@ -76,8 +77,13 @@ module Noodall
 
       self.approved = spam
       self.defensio_signature = metadata
+      self.checked = true
 
       true
+    end
+
+    def spam_checked?
+      self.checked
     end
 
     def self.spam_checker
