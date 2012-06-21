@@ -12,6 +12,12 @@ Install the gem
 
   bundle install
 
+Run the generator to automatically add the configuration or follow the instructions below.
+
+  rails generate noodall:form_builder:setup
+
+== Configuration
+
 Add the Form Builder routes to config/routes.rb
 
   require 'noodall/form_builder/routes'
