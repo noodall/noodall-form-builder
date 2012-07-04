@@ -34,7 +34,7 @@ Add ContactForm to required slots in config/initializers/noodall.rb
 
 Configure the no-reply email address
 
-    Noodall::FormBuilder.noreply_address # 'noreply@example.com'
+    Noodall::FormBuilder.noreply_address = 'noreply@example.com'
 
 ## Spam Protection
 
@@ -44,15 +44,15 @@ To enable spam protection using Defensio or Akismet
 
 Add the following to config/initializers/noodall.rb
 
-    Noodall::FormBuilder.spam_protection # :defensio
-    Noodall::FormBuilder.spam_api_key # '<api_key>'
+    Noodall::FormBuilder.spam_protection = :defensio
+    Noodall::FormBuilder.spam_api_key = '<api_key>'
 
 ### Akismet
 
 Add the following to config/initializers/noodall.rb
 
-    Noodall::FormBuilder.spam_protection # :akismet
-    Noodall::FormBuilder.spam_api_key # '<api_key>'
-    Noodall::FormBuilder.spam_url # '<website_url>'
+    Noodall::FormBuilder.spam_protection = :akismet
+    Noodall::FormBuilder.spam_api_key = '<api_key>'
+    Noodall::FormBuilder.spam_url = '<website_url>'
 
 This project rocks and uses MIT-LICENSE.
