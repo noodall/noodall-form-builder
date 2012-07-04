@@ -1,6 +1,11 @@
 = Noodall Form Builder
 
-Form building for Noodall
+Form building for Noodall.
+
+Form Builder adds the ability to easily create forms which can be added
+to Node slots. Form data is (optionally) spam checked with Defensio or
+Akismet, stored in the database and emailed. A CSV export allows
+downloading of the data.
 
 == Getting Started
 
