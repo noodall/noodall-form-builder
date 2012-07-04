@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Steve England", "Daniel Craig", "Alex Heaton", "Jordan Elver"]
   s.email       = ["info@wearebeef.co.uk"]
-  s.homepage    = "http://rubygems.org/gems/noodall-form-builder"
+  s.homepage    = "https://github.com/noodall/noodall-form-builder"
   s.summary     = "Noodall Form Builder"
   s.description = "Functionality for building custom forms"
 
