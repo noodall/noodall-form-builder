@@ -23,12 +23,12 @@ Run the generator to automatically add the configuration or follow the instructi
 
 ## Configuration
 
-Add the Form Builder routes to config/routes.rb
+Add the Form Builder routes to `config/routes.rb`
 
     require 'noodall/form_builder/routes'
     Noodall::FormBuilder::Routes.draw <AppNameConstantGoesHere>::Application
 
-Add ContactForm to required slots in config/initializers/noodall.rb
+Add ContactForm to required slots in `config/initializers/noodall.rb`
 
     Noodall::Node.slot :large, ContactForm
 
@@ -42,14 +42,14 @@ To enable spam protection using Defensio or Akismet
 
 ### Defensio
 
-Add the following to config/initializers/noodall.rb
+Add the following to `config/initializers/noodall.rb`
 
     Noodall::FormBuilder.spam_protection = :defensio
     Noodall::FormBuilder.spam_api_key = '<api_key>'
 
 ### Akismet
 
-Add the following to config/initializers/noodall.rb
+Add the following to `config/initializers/noodall.rb`
 
     Noodall::FormBuilder.spam_protection = :akismet
     Noodall::FormBuilder.spam_api_key = '<api_key>'
