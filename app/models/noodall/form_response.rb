@@ -1,3 +1,6 @@
+require 'spam/defensio_spam_checker'
+require 'spam/akismet_spam_checker'
+
 module Noodall
   class FormResponse
     include MongoMapper::Document
@@ -7,20 +10,21 @@ module Noodall
     key :ip, String, :required => true
     key :referrer, String, :required => true
     key :created_at, Time, :required => true
-    key :approved, Boolean, :default => true
-    key :defensio_signature, String
-    key :spaminess, Float, :default => 0
+    key :approved, Boolean, :default => false
+    key :checked, Boolean, :default => false
 
-    before_save :check_for_spam, :if => :defensio_configuired?
+    # For Defensio only
+    key :defensio_signature, String
+
+    before_save :check_for_spam
 
     attr_protected :approved
-
 
     timestamps!
 
     belongs_to :form, :class => Noodall::Form, :foreign_key => 'noodall_form_id'
 
-    # Overiden to set up keys after find
+    # Overriden to set up keys after find
     def initialize_from_database(attrs={})
       super.tap do
         set_up_keys!
@@ -30,13 +34,13 @@ module Noodall
     def approve!
       self.approved = true
       self.save!
-      self.class.defensio.put_document(defensio_signature, { :allow => true })
+      self.class.spam_checker.mark_as_ham!(self)
     end
 
     def mark_as_spam!
       self.approved = false
       self.save!
-      self.class.defensio.put_document(defensio_signature, { :allow => false })
+      self.class.spam_checker.mark_as_spam!(self)
     end
 
     def is_spam?
@@ -46,15 +50,6 @@ module Noodall
     # Create appropriate MongoMapper keys for current instance
     # based on the fields of the form it belongs to
     def set_up_keys!
-      # Fixes 1.8.x compatibitlity with Filter Chains
-      class_eval do
-        def self._validate_callbacks
-          FormResponse._validate_callbacks
-        end
-      end if form
-      # End fix
-
-
       form.fields.each do |f|
         class_eval do
           key f.underscored_name, f.keys['default'].type, :required => f.required, :default => f.default
@@ -62,57 +57,46 @@ module Noodall
       end if form
     end
 
-
     # Merge meta keys with real keys
     def keys
       super.merge( class_eval( 'keys' ) )
     end
 
     protected
-    def defensio_configuired?
-      defined?(Defensio) && !self.class.defensio_config.blank?
-    end
 
     def check_for_spam
-      if self.defensio_signature.blank?
-        status, response = self.class.defensio.post_document(self.defensio_attributes)
-        return true unless status == 200
+      return if spam_checked?
 
-        self.defensio_signature = response['signature']
-        self.spaminess = response['spaminess']
-        self.approved = response['allow']
+      # If no spam checking is enabled, just approve automatically
+      if self.class.spam_checker.nil?
+        self.approved = true
+        return
       end
-      return true
+
+      spam, metadata = self.class.spam_checker.check(self)
+
+      self.approved = spam
+      self.defensio_signature = metadata
+      self.checked = true
+
+      true
     end
 
-    def self.defensio
-      @@defensio ||= Defensio.new(self.defensio_api_key)
+    def spam_checked?
+      self.checked
     end
 
-    def self.defensio_api_key
-      defensio_config['api_key']
-    end
+    def self.spam_checker
+      @@spam_checker ||= begin
 
-    def self.defensio_config
-      begin
-        @defensio_config ||= YAML::load(File.open(File.join(Rails.root, 'config', 'defensio.yml')))
-      rescue Exception => e
-        puts "Failed to load Defensio config: #{e}"
-        @defensio_config = {}
+        spam_service = Noodall::FormBuilder.spam_protection
+        return if spam_service.nil?
+
+        spam_checker = "#{spam_service.capitalize}SpamChecker"
+        klass = Noodall::FormBuilder.const_get(spam_checker)
+
+        klass.new
       end
     end
-
-    def defensio_attributes
-      {
-        'client' => 'Noodall Form Builder | 1.0 | Beef Ltd | hello@wearebeef.co.uk ',
-        'type' => 'other',
-        'platform' => 'noodall',
-        'content' => self.form.fields.map{|f| "#{f.name}: #{self.send(f.underscored_name) if self.respond_to?(f.underscored_name)}" }.join(' '),
-        'author-email' => self.email,
-        'author-name' => self.name,
-        'author-ip' => self.ip
-      }
-    end
-
   end
 end

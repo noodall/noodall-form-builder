@@ -2,6 +2,9 @@ module Noodall
   module FormBuilder
     class << self
       attr_accessor :noreply_address
+      attr_accessor :spam_protection
+      attr_accessor :spam_api_key
+      attr_accessor :spam_url
     end
 
     noreply_address = 'noreply@example.com'

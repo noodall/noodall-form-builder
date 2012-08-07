@@ -1,6 +1,9 @@
 <% for field in @form.fields %>
     <tr>
       <td><%= field.name %></td>
-      <td><%= @response.send(field.underscored_name) %></td>
+      <td>
+        <% value = @response.send(field.underscored_name) %>
+        <%= value.respond_to?(:join) ? value.join(', ') : value %>
+      </td>
     </tr>
 <% end %>

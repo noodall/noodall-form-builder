@@ -1,2 +1,2 @@
 <%= (f.label field.underscored_name, field.label) %><%= (field.required ? content_tag('span', ' *', :class => 'required') : '') %>
-<%= f.check_box field.underscored_name, {}, 'Yes', 'No' %>
+<%= f.check_box field.underscored_name %>

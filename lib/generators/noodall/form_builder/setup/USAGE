@@ -1,0 +1,6 @@
+Description:
+  Automatically add FormBuilder configuration
+
+Example:
+  rails generate noodall:form_builder:setup
+
