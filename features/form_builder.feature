@@ -52,8 +52,7 @@ Feature: Form builder
 
   Scenario: Response CSV Download
     Given a form exists that has had many responses
-    When I visit the form builder admin page
-    And I click "Download Responses" on the forms row in the Form List
+    When I visit the form responses page and click download
     Then I should receive a CSV file containing all the responses to that form
 
   Scenario: Update an existing form with responses

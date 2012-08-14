@@ -293,4 +293,8 @@ Given /^I mark the response as not spam$/ do
   step %{I follow "Not Spam?"} # This is tied to the current page, could be abstracted a little more
 end
 
-
+When /^I visit the form responses page and click download$/ do
+  form = Noodall::Form.first
+  visit noodall_admin_form_form_responses_path(form)
+  page.find('.download-csv').click
+end
