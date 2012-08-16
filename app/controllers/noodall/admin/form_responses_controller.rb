@@ -8,16 +8,9 @@ module Noodall
     end
 
     def download
-      year = params[:date][:year]
-      month = params[:date][:month]
-
-      csv = FormResponseCsv.new(@form, params[:date]).output
-      send_data(
-        csv,
-        :filename => "#{@form.title} responses #{month}-#{year} #{Time.now.to_formatted_s(:db)}.csv",
-        :type => 'text/csv',
-        :disposition => 'attachment'
-       )
+      # TODO: Check if download already exists and that first
+      download = FormResponsesDownload.new(@form, params[:date])
+      redirect_to(noodall_admin_download_path(download.generate.id))
     end
 
     def destroy

@@ -23,7 +23,9 @@ module Noodall
                   end
                 end
               end
-              
+
+              match 'forms/downloads/:download_id' => 'downloads#download', :as => 'download'
+
               resources :fields do
                 collection do
                   get :form
