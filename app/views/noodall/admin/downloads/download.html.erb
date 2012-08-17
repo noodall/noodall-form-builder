@@ -1,6 +1,50 @@
-<meta http-equiv="refresh" content="2">
+<!-- <meta http-equiv="refresh" content="2"> -->
 
-<p>Your download is being generated, refresh this page at will</p>
+<p class="download-title">Your download is being generated, this page will refresh automaticaly untill ready.</p>
 
-<%= image_tag 'admin/progress.gif' %>
+<%= image_tag 'admin/progress.gif', :class => "download-progress" %>
 
+<p class="download-desc">The download make take some time. Use the button below to receive an email when it is ready.</p>
+
+<a href="#" class="downloads-email-me">Email me when ready</a>
+
+<style type="text/css">
+  .download-title{
+    font-size: 20px;
+    text-align:center;
+    margin: 200px 0 0 0;
+  }
+  
+  .download-progress{
+    margin: 20px auto 100px auto;
+    width: 32px;
+    height: 32px;
+    display: block;
+  }
+  
+  .download-desc{
+    font-size: 14px;
+    width: 400px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .downloads-email-me{
+    overflow: hidden;
+    text-align: left;
+    display: block;
+    line-height:0;
+    text-indent: -1000em;
+    background: url(/assets/admin/email-me-button.gif);
+    width: 122px;
+    height: 44px;
+    margin: 0 auto;
+  }
+  
+  .downloads-email-me:hover{background-position: -122px 0;}
+  
+  
+  
+  
+  
+</style>
