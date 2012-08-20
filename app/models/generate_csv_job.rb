@@ -7,5 +7,10 @@ class GenerateCsvJob
 
     csv = Noodall::FormResponseCsv.new(form, download.conditions).output
     download.update_attribute(:output, csv)
+
+    # Send notification email
+    if download.email_when_ready?
+      FormMailer.download_ready(download).deliver
+    end
   end
 end

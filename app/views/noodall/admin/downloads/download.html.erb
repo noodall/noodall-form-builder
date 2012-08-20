@@ -1,12 +1,12 @@
-<!-- <meta http-equiv="refresh" content="2"> -->
+<meta http-equiv="refresh" content="2">
 
-<p class="download-title">Your download is being generated, this page will refresh automaticaly untill ready.</p>
+<p class="download-title">Your download is being generated, this page will refresh automatically until ready.</p>
 
 <%= image_tag 'admin/progress.gif', :class => "download-progress" %>
 
 <p class="download-desc">The download make take some time. Use the button below to receive an email when it is ready.</p>
 
-<a href="#" class="downloads-email-me">Email me when ready</a>
+<%= link_to 'Email me when ready', noodall_admin_download_email_when_ready_path(@download), :class => 'downloads-email-me', :method => 'post' %>
 
 <style type="text/css">
   .download-title{
@@ -14,21 +14,21 @@
     text-align:center;
     margin: 200px 0 0 0;
   }
-  
+
   .download-progress{
     margin: 20px auto 100px auto;
     width: 32px;
     height: 32px;
     display: block;
   }
-  
+
   .download-desc{
     font-size: 14px;
     width: 400px;
     margin: 0 auto;
     text-align: center;
   }
-  
+
   .downloads-email-me{
     overflow: hidden;
     text-align: left;
@@ -40,11 +40,6 @@
     height: 44px;
     margin: 0 auto;
   }
-  
+
   .downloads-email-me:hover{background-position: -122px 0;}
-  
-  
-  
-  
-  
 </style>
