@@ -2,8 +2,14 @@ module Noodall
   module Admin
     class DownloadsController < Noodall::Admin::BaseController
 
+      def check
+        download = Noodall::Download.completed(params[:download_id])
+        render :json => { ready: !download.nil? }.to_json
+      end
+
       def download
         download = Noodall::Download.completed(params[:download_id])
+
         if download
           send_data(
             download.output,

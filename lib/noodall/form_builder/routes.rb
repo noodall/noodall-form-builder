@@ -25,6 +25,7 @@ module Noodall
               end
 
               match 'forms/downloads/:download_id' => 'downloads#download', :as => 'download'
+              match 'forms/downloads/:download_id/check' => 'downloads#check', :as => 'download_check'
               match 'forms/downloads/:download_id/email' => 'downloads#email', :as => 'download_email_when_ready'
 
               resources :fields do

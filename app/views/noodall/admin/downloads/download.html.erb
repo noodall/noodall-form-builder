@@ -1,12 +1,37 @@
-<meta http-equiv="refresh" content="2">
+<div id="download-progress">
+  <script>
+  $(function() {
+    var poll = setInterval(function(){
+      $.ajax({
+        url: '<%= noodall_admin_download_check_path(@download) %>',
+        success: function(data){
+          if(data['ready'] == true) {
 
-<p class="download-title">Your download is being generated, this page will refresh automatically until ready.</p>
+            // Stop polling
+            clearInterval(poll);
+            poll = null;
 
-<%= image_tag 'admin/progress.gif', :class => "download-progress" %>
+            // Update the page
+            $('#download-progress').html('<p class="download-title">The download is ready!</p>');
 
-<p class="download-desc">The download make take some time. Use the button below to receive an email when it is ready.</p>
+            // Redirect to the download
+            window.location = '<%= noodall_admin_download_path(@download) %>';
+          }
+        }
+      });
+    }, 5000);
+  });
+  </script>
 
-<%= link_to 'Email me when ready', noodall_admin_download_email_when_ready_path(@download), :class => 'downloads-email-me', :method => 'post' %>
+  <p class="download-title">Your download is being generated, this page will refresh automatically until ready.</p>
+
+  <%= image_tag 'admin/progress.gif', :class => "download-progress" %>
+
+  <p class="download-desc">The download make take some time. Use the button below to receive an email when it is ready.</p>
+
+  <%= link_to 'Email me when ready', noodall_admin_download_email_when_ready_path(@download), :class => 'downloads-email-me', :method => 'post' %>
+
+</div>
 
 <style type="text/css">
   .download-title{
@@ -43,3 +68,4 @@
 
   .downloads-email-me:hover{background-position: -122px 0;}
 </style>
+
