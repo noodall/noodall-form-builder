@@ -17,7 +17,7 @@ module Noodall
       def email
         download = Noodall::Download.find(params[:download_id])
         download.email_when_ready(current_user.email)
-        flash[:message] = 'You will be emailed when the download is ready'
+        flash[:notice] = 'You will be emailed when the download is ready'
         redirect_to noodall_admin_forms_path
       end
     end
