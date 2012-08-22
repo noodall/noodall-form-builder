@@ -12,10 +12,8 @@
             poll = null;
 
             // Update the page
-            $('#download-progress').html('<p class="download-title">The download is ready!</p>');
-
-            // Redirect to the download
-            window.location = '<%= noodall_admin_download_path(@download) %>';
+            $('#download-progress').hide();
+            $('#download-ready').show();
           }
         }
       });
@@ -27,13 +25,23 @@
 
   <%= image_tag 'admin/progress.gif', :class => "download-progress" %>
 
-  <p class="download-desc">The download make take some time. Use the button below to receive an email when it is ready.</p>
+  <p class="download-desc">The download may take some time. Use the button below to receive an email when it is ready.</p>
 
   <%= link_to 'Email me when ready', noodall_admin_download_email_when_ready_path(@download), :class => 'downloads-email-me', :method => 'post' %>
 
 </div>
 
+<div id="download-ready">
+  <p class="download-title">
+    Your CSV file is ready
+    <br /><br />
+    <%= link_to "Download your CSV", noodall_admin_download_path(@download) %>
+  </p>
+</div>
+
 <style type="text/css">
+  #download-ready { display: none; }
+
   .download-title{
     font-size: 20px;
     text-align:center;
