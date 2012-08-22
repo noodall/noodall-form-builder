@@ -14,13 +14,15 @@ module Noodall
         conditions: @conditions
       )
 
+      download.save
+
       if Noodall::FormBuilder.use_background_queue == true
         queue.add(GenerateCsvJob, download.id)
       else
-        download.output = csv_generator.new(@form, @conditions).output
+        csv_output = csv_generator.new(@form, @conditions).output
+        download.update_attribute(:output, csv_output)
       end
 
-      download.save
       download
     end
 
