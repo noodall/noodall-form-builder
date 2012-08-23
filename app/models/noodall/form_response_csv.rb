@@ -35,7 +35,7 @@ module Noodall
     end
 
     def approved
-      @form.responses.where(:approved => true)
+      @form.responses.where(:approved => true).order('created_at desc')
     end
 
     def responses
