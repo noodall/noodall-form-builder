@@ -8,12 +8,12 @@ module Noodall
       end
 
       def download
-        download = Noodall::Download.completed(params[:download_id])
+        @download = Noodall::Download.completed(params[:download_id])
 
-        if download
+        if @download
           send_data(
-            download.output,
-            filename: download.filename,
+            @download.output,
+            filename: @download.filename,
             type: 'text/csv',
             disposition: 'attachment'
           )
