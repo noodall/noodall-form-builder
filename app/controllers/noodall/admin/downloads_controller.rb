@@ -8,9 +8,9 @@ module Noodall
       end
 
       def download
-        @download = Noodall::Download.completed(params[:download_id])
+        @download = Noodall::Download.find(params[:download_id])
 
-        if @download
+        unless @download.output.blank?
           send_data(
             @download.output,
             filename: @download.filename,
