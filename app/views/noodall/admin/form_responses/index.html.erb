@@ -27,6 +27,12 @@ form select {
 <ul class="choices">
 
   <%= form_tag(download_noodall_admin_form_form_responses_path(@form)) do %>
+    <% if Noodall::FormBuilder.use_background_queue %>
+    <label for="email_me">
+      Email me when ready
+      <%= check_box_tag :email_me %>
+    </label>
+    <% end %>
     <%= select_date(Date.current, :order => [:month, :year], :discard_day => true) %>
     <%= submit_tag "Download", :class => 'download-csv' %>
   <% end %>

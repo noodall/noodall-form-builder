@@ -9,7 +9,7 @@ module Noodall
 
     def download
       # TODO: Check if download already exists and that first
-      download = FormResponsesDownload.new(@form, params[:date])
+      download = FormResponsesDownload.new(@form, params[:date], ( current_user.email if params[:email_me] ))
       redirect_to(noodall_admin_download_path(download.generate.id))
     end
 

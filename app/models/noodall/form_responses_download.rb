@@ -2,16 +2,18 @@ module Noodall
   class FormResponsesDownload
     attr_accessor :csv_generator, :queue
 
-    def initialize(form, conditions)
+    def initialize(form, conditions, email = nil)
       @form = form
       @conditions = conditions
+      @email = email
     end
 
     def generate
       download = Noodall::Download.new(
         form_id: @form.id,
         form_title: @form.title,
-        conditions: @conditions
+        conditions: @conditions,
+        email: @email
       )
 
       download.save

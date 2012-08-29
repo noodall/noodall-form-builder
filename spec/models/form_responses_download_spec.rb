@@ -9,6 +9,20 @@ describe Noodall::FormResponsesDownload do
     @conditions = { month: 1, year: 2011 }
   end
 
+  context "when email is provided" do
+
+    it "must pass the email to the download object" do
+      csv_generator = double(:output => 'NOT BLANK')
+      Noodall::FormResponseCsv.should_receive(:new).and_return(csv_generator)
+
+      download = Noodall::FormResponsesDownload.new(@form, @conditions, 'test@example.com')
+
+      csv = download.generate
+      csv.email.should == 'test@example.com'
+      csv.email_when_ready?.should == true
+    end
+  end
+
   context "background queuing is turned off" do
     before do
       Noodall::FormBuilder.use_background_queue = false

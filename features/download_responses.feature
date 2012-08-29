@@ -11,6 +11,7 @@ Feature: Form builder response downloads
   Scenario: Request an email when the download is ready
     Given a form exists that has had many responses
     And background queuing is turned on
-    When I visit the form responses page and click download
-    Then I should receive a CSV file containing all the responses to that form
-    And I should recieve an email with a link to the download
+    When I am viewing the form's responses
+    And check "Email me when ready"
+    And press "Download"
+    Then I should recieve an email with a link to the download
