@@ -20,6 +20,27 @@ form select {
   margin-top: 13px;
   margin-right: 6px;
 }
+
+.email-me{
+  display: block;
+  width: 200px;
+  height: 20px;
+  clear: both;
+}
+
+.email-me label, 
+.email-me input{
+  float:left;
+  margin-right: 10px;
+}
+
+
+.email-me input{
+  border: 0 !important;
+  padding: 0 !important;
+  width: 10px !important;
+}
+
 </style>
 
 <h1><%= @form.title %> Responses</h1>
@@ -27,14 +48,14 @@ form select {
 <ul class="choices">
 
   <%= form_tag(download_noodall_admin_form_form_responses_path(@form)) do %>
-    <% if Noodall::FormBuilder.use_background_queue %>
-    <label for="email_me">
-      Email me when ready
-      <%= check_box_tag :email_me %>
-    </label>
-    <% end %>
     <%= select_date(Date.current, :order => [:month, :year], :discard_day => true) %>
     <%= submit_tag "Download", :class => 'download-csv' %>
+    <% if Noodall::FormBuilder.use_background_queue %>
+      <div class="email-me">
+        <label for="email_me">Email me when ready</label>
+        <%= check_box_tag :email_me %>
+      </div>
+    <% end %>
   <% end %>
 
 </ul>
