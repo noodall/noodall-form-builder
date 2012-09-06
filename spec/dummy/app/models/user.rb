@@ -2,7 +2,6 @@ class User
   include MongoMapper::Document
   include Canable::Cans
 
-  key :email, String
   key :name, String
   key :groups, Array
   key :password, String
@@ -10,5 +9,9 @@ class User
 
   def admin?
     groups.include?('website administrator')
+  end
+
+  def email
+    'user@example.com'
   end
 end

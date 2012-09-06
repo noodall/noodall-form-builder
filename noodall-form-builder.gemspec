@@ -17,6 +17,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'fastercsv', ">= 0"
   s.add_dependency 'defensio', ">= 0.9.1"
   s.add_dependency 'rakismet', ">= 1.2.1"
+  s.add_dependency 'qu-rails', ">= 0.2.0"
+  s.add_dependency 'qu-mongo', ">= 0.2.0"
 
   s.files        = `git ls-files`.split("\n")
   s.executables  = `git ls-files`.split("\n").map{|f| f =~ /^bin\/(.*)/ ? $1 : nil}.compact

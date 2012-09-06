@@ -46,5 +46,7 @@ module Dummy
     config.assets.enabled = true
 
     config.middleware.insert_after 'Rack::Lock', 'Dragonfly::Middleware', :noodall_assets, '/media'
+
+    config.action_mailer.default_url_options = { :host => 'example.com' }
   end
 end

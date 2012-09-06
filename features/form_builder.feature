@@ -50,12 +50,6 @@ Feature: Form builder
     And I view the form on the website
     Then I should see the fields in the order I set
 
-  Scenario: Response CSV Download
-    Given a form exists that has had many responses
-    When I visit the form builder admin page
-    And I click "Download Responses" on the forms row in the Form List
-    Then I should receive a CSV file containing all the responses to that form
-
   Scenario: Update an existing form with responses
     Given a form exists that has had many responses
     When I am editing the last form

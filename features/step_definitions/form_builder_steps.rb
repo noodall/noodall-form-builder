@@ -52,9 +52,9 @@ Then /^I should see a new field with the options "([^\"]*)"$/ do |arg1|
 end
 
 Given /^a form exists that has had many responses$/ do
-  form = Factory(:form)
+  @_form = Factory(:form)
   9.times do
-    Factory(:response, :form => form)
+    Factory(:response, :form => @_form)
   end
 end
 
@@ -294,3 +294,16 @@ Given /^I mark the response as not spam$/ do
 end
 
 
+Given /^background queuing is turned on$/ do
+  Noodall::FormBuilder.use_background_queue = true
+end
+
+When /^I visit the form responses page and click download$/ do
+  form = Noodall::Form.first
+  visit noodall_admin_form_form_responses_path(form)
+  page.find('.download-csv').click
+end
+
+Then /^I should recieve an email with a link to the download$/ do
+  unread_emails_for('user@example.com').size.should == 1
+end
