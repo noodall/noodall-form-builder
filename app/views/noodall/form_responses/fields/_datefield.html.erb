@@ -1,6 +1,6 @@
 <%= (f.label field.underscored_name, field.label) %>
 <%= (field.required ? content_tag('span', ' *', :class => 'required') : '') %>
 
-<%= f.text_field field.underscored_name, :class => 'date-field' %>
+<%= f.text_field field.underscored_name, :class => 'date-field', :placeholder => 'dd/mm/yyyy' %>
 <hr />
 

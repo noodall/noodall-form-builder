@@ -1,8 +1,62 @@
+<style>
+.download-csv {
+  display: block !important;
+  width: 122px !important;
+  height: 44px !important;
+  border: 0 !important;
+  background: url(/assets/admin/nav.gif) no-repeat 0 -88px !important;
+  font-size: 0px !important;
+  text-align: right !important;
+  float: right;
+  margin-left: 4px;
+}
+
+.download-csv:hover {
+  background-position: -122px -88px !important;
+}
+
+form select {
+  float: left;
+  margin-top: 13px;
+  margin-right: 6px;
+}
+
+.email-me{
+  display: block;
+  width: 200px;
+  height: 20px;
+  clear: both;
+}
+
+.email-me label, 
+.email-me input{
+  float:left;
+  margin-right: 10px;
+}
+
+
+.email-me input{
+  border: 0 !important;
+  padding: 0 !important;
+  width: 10px !important;
+}
+
+</style>
+
 <h1><%= @form.title %> Responses</h1>
 
 <ul class="choices">
 
-  <li><%= link_to 'Download Responses', noodall_admin_form_form_responses_path(@form, :csv, :page => params[:page]), :class => 'button download', :title => "Download all of these responses." %></li>
+  <%= form_tag(download_noodall_admin_form_form_responses_path(@form)) do %>
+    <%= select_date(Date.current, :order => [:month, :year], :discard_day => true) %>
+    <%= submit_tag "Download", :class => 'download-csv' %>
+    <% if Noodall::FormBuilder.use_background_queue %>
+      <div class="email-me">
+        <label for="email_me">Email me when ready</label>
+        <%= check_box_tag :email_me %>
+      </div>
+    <% end %>
+  <% end %>
 
 </ul>
 
@@ -14,7 +68,9 @@
       <th>Name</th>
       <th>Fields</th>
       <th width="100">Date</th>
-      <th width="150">Spam</th>
+      <% if spam_protection_configured? %>
+        <th width="150">Spam</th>
+      <% end %>
       <th width="45">Delete</th>
     </tr>
   </thead>
@@ -24,13 +80,15 @@
       <td class="edit"><%= mail_to response.email, h(response.name) %></td>
       <td><%= @form.fields.collect{|f| "<strong>#{f.name}:</strong> #{response.send(f.underscored_name)}" }.join(",&nbsp;").html_safe %></td>
       <td><%= h response.created_at.to_formatted_s(:long_dot) %></td>
-      <td class="spam <%= 'flagged' unless response.approved %>">
-        <% if response.approved  %>
-          <%= link_to "Spam?", mark_as_spam_noodall_admin_form_form_response_path(@form, response), :method => :put %>
-        <% else %>
-          <%= link_to "Not Spam?", mark_as_not_spam_noodall_admin_form_form_response_path(@form, response), :method => :put %>
-        <% end %>
-      </td>
+      <% if spam_protection_configured? %>
+        <td class="spam <%= 'flagged' unless response.approved %>">
+          <% if response.approved  %>
+            <%= link_to "Spam?", mark_as_spam_noodall_admin_form_form_response_path(@form, response), :method => :put %>
+          <% else %>
+            <%= link_to "Not Spam?", mark_as_not_spam_noodall_admin_form_form_response_path(@form, response), :method => :put %>
+          <% end %>
+        </td>
+      <% end %>
       <td><%= link_to 'Delete', noodall_admin_form_form_response_path(@form, response), :confirm => 'Are you sure?', :method => :delete, :class => 'delete', :title => 'Delete this response' %>
       </td>
     </tr>
@@ -41,7 +99,9 @@
       <th>Name</th>
       <th>Fields</th>
       <th width="100">Date</th>
-      <th width="150">Spam</th>
+      <% if spam_protection_configured? %>
+        <th width="150">Spam</th>
+      <% end %>
       <th width="45">Delete</th>
     </tr>
   </tfoot>

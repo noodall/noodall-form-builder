@@ -1,56 +1,16 @@
-
-# in ruby 1.9, fastercsv was included as csv
-if RUBY_VERSION =~ /1\.8/
-  require 'fastercsv'
-  Abstracted_CSV_Class = FasterCSV
-else
-  require 'csv'
-  Abstracted_CSV_Class = CSV
-end
-
 module Noodall
   class Admin::FormResponsesController < Noodall::Admin::BaseController
     include SortableTable::App::Controllers::ApplicationController
-    before_filter :find_form,:set_title
+    before_filter :find_form, :set_title
 
     def index
-      if @form.nil?
-        @responses = Noodall::FormResponse.paginate(:per_page => 1000, :page => params[:page])
-      else
-        @responses = @form.responses.paginate(:per_page => 1000, :page => params[:page])
-      end
+      @responses = @form.responses.paginate(:per_page => 25, :page => params[:page], :order => 'created_at desc')
+    end
 
-      respond_to do |format|
-        format.html # index.html.erb
-        format.xml  { render :xml => @responses }
-
-        format.csv do
-          csv_string = Abstracted_CSV_Class.generate do |csv|
-            header_row = @form.fields.map do |field|
-              field.name
-            end
-            header_row += ['Date', 'IP', 'Form Location']
-            csv << header_row
-
-            for response in @responses
-              response_row = @form.fields.map do |field|
-                begin
-                  value = response.send(field.underscored_name)
-                  value.respond_to?(:join) ? value.join(', ') : value
-                rescue NoMethodError => e
-                  nil
-                end
-              end
-              response_row += [response.created_at.to_formatted_s(:long), response.ip, response.referrer]
-              csv << response_row
-            end
-          end
-          send_data csv_string, :filename => "#{@form.title} responses - #{Time.now.to_formatted_s(:db)}-#{@responses.current_page}.csv",
-                                :type => 'text/csv',
-                                :disposition => 'attachment'
-        end
-
-      end
+    def download
+      # TODO: Check if download already exists and that first
+      download = FormResponsesDownload.new(@form, params[:date], ( current_user.email if params[:email_me] ))
+      redirect_to(noodall_admin_download_path(download.generate.id))
     end
 
     def destroy

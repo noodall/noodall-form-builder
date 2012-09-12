@@ -18,4 +18,11 @@ class FormMailer < ActionMailer::Base
          :reply_to => form.email,
          :subject  =>   "[#{Noodall::UI.app_name}] Thank you for getting in contact.")
   end
+
+  def download_ready(download)
+    @download = download
+
+    mail(:to       => download.email,
+         :subject  => "[#{Noodall::UI.app_name}] Form CSV Download is ready.")
+  end
 end

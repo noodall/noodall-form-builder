@@ -1,2 +1,2 @@
-<%= (f.label field.underscored_name, field.label) %><%= (field.required ? content_tag('span', ' *', :class => 'required') : '') %>
-           <%= f.text_field field.underscored_name, :class => field.default_class(form_response) %>
+<%= (f.label field.underscored_name, "#{field.label} #{(field.required ? content_tag('b', ' *') : '')}") %>
+<%= f.text_field field.underscored_name, :class => field.default_class(form_response) %>

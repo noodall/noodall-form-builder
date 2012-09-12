@@ -22,7 +22,7 @@
       <td class="edit"><%= link_to h(form.title), noodall_admin_form_path(form), :class => 'edit', :title => "Edit #{form.title}" %></td>
       <td><%= form.email %></td>
       <td class="child">
-        <%= link_to pluralize(form.responses.count, "Response"), noodall_admin_form_form_responses_path(form), :title => "View responses for #{h(form.title)}", :class => 'child-no' %> <%= link_to 'Download Responses', noodall_admin_form_form_responses_path(form, :csv), :class => 'download', :title => 'Download the responses for this form in CSV format' %></td>
+        <%= link_to pluralize(form.responses.count, "Response"), noodall_admin_form_form_responses_path(form), :title => "View responses for #{h(form.title)}", :class => 'child-no' %></td>
       <td><%= link_to 'Delete', noodall_admin_form_path(form), :confirm => 'Are you sure?', :method => :delete, :class => 'delete', :title => 'Delete this form' %></td>
     </tr>
 <% end %>

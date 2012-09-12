@@ -1,0 +1,75 @@
+<div id="download-progress">
+  <script>
+  $(function() {
+    var poll = setInterval(function(){
+      $.ajax({
+        url: '<%= noodall_admin_download_check_path(@download) %>',
+        success: function(data){
+          if(data['ready'] == true) {
+
+            // Stop polling
+            clearInterval(poll);
+            poll = null;
+
+            // Update the page
+            $('#download-progress').hide();
+            $('#download-ready').show();
+          }
+        }
+      });
+    }, 5000);
+  });
+  </script>
+
+  <p class="download-title">Your download is being generated, this page will refresh automatically.</p>
+
+  <%= image_tag 'admin/progress.gif', :class => "download-progress" %>
+
+</div>
+
+<div id="download-ready">
+  <p class="download-title">
+    Your CSV file is ready
+    <br /><br />
+    <%= link_to "Download your CSV", noodall_admin_download_path(@download) %>
+  </p>
+</div>
+
+<style type="text/css">
+  #download-ready { display: none; }
+
+  .download-title{
+    font-size: 20px;
+    text-align:center;
+    margin: 200px 0 0 0;
+  }
+
+  .download-progress{
+    margin: 20px auto 100px auto;
+    width: 32px;
+    height: 32px;
+    display: block;
+  }
+
+  .download-desc{
+    font-size: 14px;
+    width: 400px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .downloads-email-me{
+    overflow: hidden;
+    text-align: left;
+    display: block;
+    line-height:0;
+    text-indent: -1000em;
+    background: url(/assets/admin/email-me-button.gif);
+    width: 122px;
+    height: 44px;
+    margin: 0 auto;
+  }
+
+  .downloads-email-me:hover{background-position: -122px 0;}
+</style>
+
