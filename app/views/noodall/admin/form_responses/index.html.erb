@@ -75,7 +75,7 @@ form select {
     </tr>
   </thead>
   <tbody>
-<% @responses.sort_by(&:created_at).reverse.each do |response| %>
+<% @responses.each do |response| %>
     <tr id="form-<%= response.id %>" class="<%=cycle('odd', 'even')%>">
       <td class="edit"><%= mail_to response.email, h(response.name) %></td>
       <td><%= @form.fields.collect{|f| "<strong>#{f.name}:</strong> #{response.send(f.underscored_name)}" }.join(",&nbsp;").html_safe %></td>
