@@ -14,7 +14,7 @@ module Noodall
     before_filter :find_form, :set_title
 
     def index
-      @responses = @form.responses.paginate(:per_page => 100, :page => params[:page])
+      @responses = @form.responses.paginate(:per_page => 100, :page => params[:page], :order => 'created_at DESC')
     end
 
     def download
