@@ -25,6 +25,15 @@ describe Noodall::FormResponseCsv do
       created_at: "2011-02-11 09:53:23",
       approved: true
     )
+
+    frank = Factory(
+      :response,
+      form: @form,
+      name: "Frank",
+      email: "frank@frankington.com",
+      created_at: "2012-12-01 09:53:23",
+      approved: true
+    )
   end
 
   it "should accept a form" do
@@ -32,19 +41,32 @@ describe Noodall::FormResponseCsv do
 
     csv.should == <<-EOS.strip_heredoc
       Name,Email,Date,IP,Form Location
+      Frank,frank@frankington.com,"December 01, 2012 09:53",127.0.0.1,http://rac.local/the-college
       Jeff,jeff@jefferson.com,"August 14, 2012 11:05",127.0.0.1,http://rac.local/the-college
       Bob,bob@bobbington.com,"February 11, 2011 09:53",127.0.0.1,http://rac.local/the-college
     EOS
   end
 
-  it "should filter by date" do
-    conditions = { "month"=>"8", "year"=>"2012" }
-    csv = Noodall::FormResponseCsv.new(@form, conditions).output
+  describe "filtering by date" do
+    it "should filter by date" do
+      conditions = { "month"=>"8", "year"=>"2012" }
+      csv = Noodall::FormResponseCsv.new(@form, conditions).output
 
-    csv.should == <<-EOS.strip_heredoc
-      Name,Email,Date,IP,Form Location
-      Jeff,jeff@jefferson.com,"August 14, 2012 11:05",127.0.0.1,http://rac.local/the-college
-    EOS
+      csv.should == <<-EOS.strip_heredoc
+        Name,Email,Date,IP,Form Location
+        Jeff,jeff@jefferson.com,"August 14, 2012 11:05",127.0.0.1,http://rac.local/the-college
+      EOS
+    end
+
+    it "should filter correctly when at the end of the year" do
+      conditions = { "month"=>"12", "year"=>"2012" }
+      csv = Noodall::FormResponseCsv.new(@form, conditions).output
+
+      csv.should == <<-EOS.strip_heredoc
+        Name,Email,Date,IP,Form Location
+        Frank,frank@frankington.com,"December 01, 2012 09:53",127.0.0.1,http://rac.local/the-college
+      EOS
+    end
   end
 
   it "should only include non-spam form responses" do
@@ -62,6 +84,7 @@ describe Noodall::FormResponseCsv do
 
     csv.should == <<-EOS.strip_heredoc
       Name,Email,Date,IP,Form Location
+      Frank,frank@frankington.com,"December 01, 2012 09:53",127.0.0.1,http://rac.local/the-college
       Jeff,jeff@jefferson.com,"August 14, 2012 11:05",127.0.0.1,http://rac.local/the-college
       Bob,bob@bobbington.com,"February 11, 2011 09:53",127.0.0.1,http://rac.local/the-college
     EOS

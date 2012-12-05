@@ -64,7 +64,11 @@ module Noodall
 
       next_month = month + 1
       next_month = 1 if next_month > 12
-      to = Date.civil(year, next_month, 01).to_time
+
+      next_year = year
+      next_year = year + 1 if month == 12
+
+      to = Date.civil(next_year, next_month, 01).to_time
 
       [from, to]
     end
