@@ -1,8 +1,22 @@
+<style>
+  ul.choices li a.button.delete-all-spam {
+    background: url(/assets/admin/delete-all-spam.gif) no-repeat 0 0;
+    width: 170px;
+  }
+  ul.choices li a.button.delete-all-spam:hover {
+    background-position: -170px 0;
+  }
+</style>
+
 <h1><%= @form.title %> Responses</h1>
 
 <ul class="choices">
 
   <li><%= link_to 'Download Responses', noodall_admin_form_form_responses_path(@form, :csv, :page => params[:page]), :class => 'button download', :title => "Download all of these responses." %></li>
+
+  <li><%= link_to 'Delete all Spam', destroy_all_spam_noodall_admin_form_form_responses_path(@form), :class => 'button delete-all-spam', :title => "Delete all of the spam responses for this form.", :method => :delete, :confirm => 'Are you sure you want to delete all the spam responses?' %></li>
+
+
 
 </ul>
 

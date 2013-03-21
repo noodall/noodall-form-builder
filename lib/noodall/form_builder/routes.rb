@@ -18,6 +18,10 @@ module Noodall
                     put :mark_as_spam
                     put :mark_as_not_spam
                   end
+                  
+                  collection do
+                    delete :destroy_all_spam
+                  end
                 end
               end
               
