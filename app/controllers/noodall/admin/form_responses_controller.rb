@@ -22,15 +22,16 @@ module Noodall
 
       respond_to do |format|
         format.html do
+          Rails.logger.info "FORMAT HTML"
           @responses = @responses.paginate(:per_page => 100, :page => params[:page])
         end
 
         format.csv do
-
+          
           # Only include non-spam responses in CSV download
-          @responses = @responses.where(:approved => true)
+          @responses = @responses.where(:approved => true).paginate(:per_page => 100, :page => params[:page])
 
-          csv_string = Abstracted_CSV_Class.generate do |csv|
+            csv_string = Abstracted_CSV_Class.generate do |csv|
             header_row = @form.fields.map do |field|
               field.name
             end
@@ -50,6 +51,7 @@ module Noodall
               csv << response_row
             end
           end
+          
           send_data csv_string, :filename => "#{@form.title} responses - #{Time.now.to_formatted_s(:db)}-#{@responses.current_page}.csv",
                                 :type => 'text/csv',
                                 :disposition => 'attachment'
