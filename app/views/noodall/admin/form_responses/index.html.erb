@@ -4,7 +4,7 @@
 
   <li><%= link_to 'Download Responses', noodall_admin_form_form_responses_path(@form, :csv, :page => params[:page]), :class => 'button download', :title => "Download all of these responses." %></li>
 
-  <li><%= link_to 'Delete all Spam', destroy_all_spam_noodall_admin_form_form_responses_path(@form), :class => 'button delete-all-spam', :title => "Delete all of the spam responses for this form.", :method => :delete %></li>
+  <li><%= link_to 'Delete all Spam', destroy_all_spam_noodall_admin_form_form_responses_path(@form), :class => 'button delete-all-spam', :title => "Delete all of the spam responses for this form.", :method => :delete, :confirm => 'Are you sure you want to delete all the spam responses?' %></li>
 
 
 
