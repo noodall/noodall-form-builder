@@ -87,6 +87,12 @@ module Noodall
 
       redirect_to(noodall_admin_form_form_responses_url(@form))
     end
+    
+    def destroy_all_spam
+      @spam_responses = @form.responses.where(:approved => false)
+      @spam_responses.each { |spam| spam.destroy }
+      redirect_to(noodall_admin_form_form_responses_url(@form), :notice => 'All spam has been deleted')
+    end
 
   private
     def set_title
