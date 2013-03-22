@@ -48,13 +48,14 @@ ul.choices li a.button.delete-all-spam {
 ul.choices li a.button.delete-all-spam:hover {
   background-position: -170px 0;
 }
+
 </style>
 
 <h1><%= @form.title %> Responses</h1>
 
 <ul class="choices">
 
-  <%= form_tag(download_noodall_admin_form_form_responses_path(@form)) do %>
+<li>  <%= form_tag(download_noodall_admin_form_form_responses_path(@form)) do %>
     <%= select_date(Date.current, :order => [:month, :year], :discard_day => true) %>
     <%= submit_tag "Download", :class => 'download-csv' %>
     <% if Noodall::FormBuilder.use_background_queue %>
@@ -63,7 +64,7 @@ ul.choices li a.button.delete-all-spam:hover {
         <%= check_box_tag :email_me %>
       </div>
     <% end %>
-  <% end %>
+  <% end %></li>
 
   <li><%= link_to 'Delete all Spam', destroy_all_spam_noodall_admin_form_form_responses_path(@form), :class => 'button delete-all-spam', :title => "Delete all of the spam responses for this form.", :method => :delete, :confirm => 'Are you sure you want to delete all the spam responses?' %></li>
 
