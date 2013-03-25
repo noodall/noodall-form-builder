@@ -2,6 +2,9 @@ require 'defensio'
 
 module Noodall
   module FormBuilder
+    
+    class DefensioAPIError < StandardError; end
+    
     class DefensioSpamChecker
       attr_accessor :defensio
 
@@ -22,6 +25,10 @@ module Noodall
         status, response = self.defensio.post_document(
           spam_attributes(form_response)
         )
+        
+        # The Defensio API is regularly down. We raise an error here and let the application decide
+        # how to handle it
+        raise DefensioAPIError.new("It looks like the Defensio API is down again") if status == 503
 
         [response['allow'], response['signature']]
       end
