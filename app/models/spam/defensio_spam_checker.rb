@@ -28,7 +28,7 @@ module Noodall
         
         # The Defensio API is regularly down. We raise an error here and let the application decide
         # how to handle it
-        raise DefensioAPIError.new("It looks like the Defensio API is down again") if status == 503
+        raise DefensioAPIError.new("Spam checking is currently unavailable. Please contact the administrator.") if status == 503
 
         [response['allow'], response['signature']]
       end
