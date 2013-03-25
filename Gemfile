@@ -6,8 +6,11 @@ gem 'rails', '3.1.3'
 gem 'noodall-ui'
 gem 'dragonfly', '~> 0.7.6'
 gem 'defensio'
+gem 'rakismet'
 gem 'fastercsv'
 gem 'bson_ext'
+gem 'qu-rails'
+gem 'qu-mongo'
 
 group :test do
   gem 'email_spec'

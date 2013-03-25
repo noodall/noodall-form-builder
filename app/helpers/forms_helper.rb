@@ -14,4 +14,7 @@ module FormsHelper
     return field_type
   end
 
+  def spam_protection_configured?
+    !Noodall::FormBuilder.spam_protection.nil?
+  end
 end
