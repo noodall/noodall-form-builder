@@ -17,7 +17,7 @@ group :test do
   gem 'email_spec'
   gem 'cucumber-rails'
   gem 'rspec-rails', '>= 2.0.0.beta'
-  gem 'factory_girl_rails'
+  gem 'factory_girl_rails', '=4.2.1'
   gem 'faker', '~> 0.3.1'
   gem 'capybara', '>= 0.3.9'
   gem 'database_cleaner'
