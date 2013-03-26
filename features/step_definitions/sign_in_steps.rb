@@ -13,7 +13,7 @@ end
 # Database
 
 Given /^a user exists with the attrubutes:$/ do |fields|
-  user = Factory :user, fields.rows_hash
+  user = create(:user, fields.rows_hash)
 end
 
 Given /^I sign in as a (.+)$/ do |role|

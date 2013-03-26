@@ -1,5 +1,5 @@
 Given /^I am editing content$/ do
-  @_content = create(create(:page_a)
+  @_content = create(:page_a)
   visit noodall_admin_node_path(@_content)
 end
 
