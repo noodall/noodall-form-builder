@@ -11,7 +11,11 @@ module Noodall
     timestamps!
 
     def filename
-      for_all_responses? ? "#{form_title} ALL responses #{download_date}.csv" : "#{form_title} responses #{date_conditions} #{download_date}.csv"
+      if for_all_responses?
+        "#{form_title} ALL responses #{download_date}.csv"
+      else
+        "#{form_title} responses #{date_conditions} #{download_date}.csv"
+      end
     end
 
     def email_when_ready(email)
