@@ -10,7 +10,7 @@ module Noodall
   class FormResponseCsv
     def initialize(form, conditions = {})
       @form       = form
-      @conditions = HashWithIndifferentAccess.new(conditions)
+      @conditions = conditions
     end
 
     def output

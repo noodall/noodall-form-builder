@@ -80,8 +80,8 @@ describe Noodall::FormResponseCsv do
       EOS
     end
     
-    it 'should return all responses when :month == :all & :year == :all' do
-      conditions = { :month => :all, :year => :all }
+    it 'should return all responses when month == :all & year == :all' do
+      conditions = { 'month' => :all, 'year' => :all }
       csv = Noodall::FormResponseCsv.new(@form, conditions).output
 
       csv.should == <<-EOS.strip_heredoc
