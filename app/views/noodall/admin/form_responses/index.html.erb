@@ -15,6 +15,23 @@
   background-position: -122px -88px !important;
 }
 
+.download-all-csv {
+  display: block !important;
+  width: 143px !important;
+  height: 44px !important;
+  border: 0 !important;
+  background: url(/assets/admin/download-all.gif) no-repeat 0 0 !important;
+  font-size: 0px !important;
+  text-align: right !important;
+  float: right;
+  margin-left: 4px;
+  margin-right: 3px;
+}
+
+.download-all-csv:hover {
+  background-position: -143px 0 !important;
+}
+
 form select {
   float: left;
   margin-top: 13px;
@@ -55,7 +72,8 @@ ul.choices li a.button.delete-all-spam:hover {
 
 <ul class="choices">
 
-<li>  <%= form_tag(download_noodall_admin_form_form_responses_path(@form)) do %>
+<li>
+  <%= form_tag(download_noodall_admin_form_form_responses_path(@form)) do %>
     <%= select_date(Date.current, :order => [:month, :year], :discard_day => true) %>
     <%= submit_tag "Download", :class => 'download-csv' %>
     <% if Noodall::FormBuilder.use_background_queue %>
@@ -64,7 +82,24 @@ ul.choices li a.button.delete-all-spam:hover {
         <%= check_box_tag :email_me %>
       </div>
     <% end %>
-  <% end %></li>
+  <% end %>
+</li>
+
+<li>
+  <%= form_tag(download_noodall_admin_form_form_responses_path(@form)) do %>
+    <input type="hidden" name="date[year]" value="all" />
+    <input type="hidden" name="date[month]" value="all" />
+    <%= submit_tag "Download ALL", :class => 'download-all-csv' %>
+    <% if Noodall::FormBuilder.use_background_queue %>
+      <div class="email-me">
+        <label for="email_me">Email me when ready</label>
+        <%= check_box_tag :email_me %>
+      </div>
+    <% end %>
+  <% end %>
+</li>
+
+
 
   <li><%= link_to 'Delete all Spam', destroy_all_spam_noodall_admin_form_form_responses_path(@form), :class => 'button delete-all-spam', :title => "Delete all of the spam responses for this form.", :method => :delete, :confirm => 'Are you sure you want to delete all the spam responses?' %></li>
 
