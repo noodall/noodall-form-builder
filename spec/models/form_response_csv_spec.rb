@@ -2,13 +2,13 @@ require 'spec_helper'
 
 describe Noodall::FormResponseCsv do
   before do
-    @form = Factory(:form)
+    @form = create(:form)
     @form.fields = [
-      Factory(:text_field, :name => 'Name', :required => true),
-      Factory(:text_field, :name => 'Email', :required => true)
+      create(:text_field, :name => 'Name', :required => true),
+      create(:text_field, :name => 'Email', :required => true)
     ]
 
-    jeff = Factory(
+    jeff = create(
       :response,
       form: @form,
       name: "Jeff",
@@ -17,7 +17,7 @@ describe Noodall::FormResponseCsv do
       approved: true
     )
 
-    bob = Factory(
+    bob = create(
       :response,
       form: @form,
       name: "Bob",
@@ -26,7 +26,7 @@ describe Noodall::FormResponseCsv do
       approved: true
     )
 
-    frank = Factory(
+    frank = create(
       :response,
       form: @form,
       name: "Frank",
@@ -67,10 +67,11 @@ describe Noodall::FormResponseCsv do
         Frank,frank@frankington.com,"December 01, 2012 09:53",127.0.0.1,http://rac.local/the-college
       EOS
     end
+    
   end
 
   it "should only include non-spam form responses" do
-    spam = Factory(
+    spam = create(
       :response,
       form: @form,
       name: "Spam",

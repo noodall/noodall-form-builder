@@ -52,9 +52,9 @@ Then /^I should see a new field with the options "([^\"]*)"$/ do |arg1|
 end
 
 Given /^a form exists that has had many responses$/ do
-  @_form = Factory(:form)
+  @_form = create(:form)
   9.times do
-    Factory(:response, :form => @_form)
+    create(:response, :form => @_form)
   end
 end
 
@@ -71,7 +71,7 @@ end
 
 Given /^forms have been created with the form builder$/ do
   5.times do
-    Factory(:form)
+    create(:form)
   end
 end
 
@@ -96,13 +96,13 @@ Then /^I should see the form I selected$/ do
 end
 
 Given /^a form exists$/ do
-  Factory(:form)
+  create(:form)
 end
 
 Given /^content exists with a form added via the contact module$/ do
-  @_node = Factory(:page_a)
-  @_form = Factory(:form)
-  @_node.wide_slot_0 = Factory(:contact_form, :form_id => @_form.id)
+  @_node = create(:page_a)
+  @_form = create(:form)
+  @_node.wide_slot_0 = create(:contact_form, :form_id => @_form.id)
   @_node.save
 end
 
@@ -231,12 +231,12 @@ Given /^a form exists with the following fields:$/ do |table|
   fields = table.rows_hash.map do |name, type|
     factory, opts = type.split(': ')
     if opts.blank?
-      Factory(factory.parameterize('_'), :name => name)
+      create(factory.parameterize('_'), :name => name)
     else
-      Factory(factory.parameterize('_'), :name => name, :options => opts)
+      create(factory.parameterize('_'), :name => name, :options => opts)
     end
   end
-  @_form = Factory(:form, :fields => fields)
+  @_form = create(:form, :fields => fields)
 end
 
 When /^I am editing the form$/ do
@@ -265,8 +265,8 @@ When /^I click the "([^\"]*)" arrow next to "([^\"]*)" once$/ do |arrow, field|
 end
 
 When /^I view the form on the website$/ do
-  @_node = Factory(:page_a)
-  @_node.wide_slot_0 = Factory(:contact_form, :form_id => @_form.id)
+  @_node = create(:page_a)
+  @_node.wide_slot_0 = create(:contact_form, :form_id => @_form.id)
   @_node.save
   step %{a website visitor visits the content}
 end
@@ -282,7 +282,7 @@ When /^I am editing the last form$/ do
 end
 
 Given /^a form exists with the following:$/ do |fields|
-  @_form = Factory(:form, fields.rows_hash)
+  @_form = create(:form, fields.rows_hash)
 end
 
 Given /^I am viewing the form's responses$/ do

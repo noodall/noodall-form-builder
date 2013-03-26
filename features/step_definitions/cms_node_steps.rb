@@ -105,7 +105,7 @@ end
 When /^I create a new child under an ancestor in "([^"]+)" template$/ do |template_title|
   template = template_title.downcase.gsub(' ','_')
   #create the ancester
-  parent = Factory(template.to_sym)
+  parent = create(template.to_sym)
 
   visit noodall_admin_node_nodes_path(parent)
   click_link 'New'

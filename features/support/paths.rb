@@ -27,13 +27,13 @@ module NavigationHelpers
       node = Node.first(:_type => $1.gsub(' ',''), :order => 'created_at DESC')
       node_path(node)
     when /^a page that's content is in the "([^\"]*)" template that does not have published children$/
-      node = Factory($1.gsub(' ','_').tableize.singularize, :publish => true)
+      node = create($1.gsub(' ','_').tableize.singularize, :publish => true)
       node.children.each{|c| c.destroy }
       node_path(node)
     when /^a page that's content is in the "([^\"]*)" template that has published children$/
-      node = Factory($1.gsub(' ','_').tableize.singularize, :publish => true)
+      node = create($1.gsub(' ','_').tableize.singularize, :publish => true)
       3.times do
-        Factory(:page_a, :publish => true, :parent => node)
+        create(:page_a, :publish => true, :parent => node)
       end
       node_path(node)
     when /^that page$/

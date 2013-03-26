@@ -2,7 +2,7 @@ Given /^I am signed in(?: as an? (.*))?$/ do |role|
   role ||= 'user'
   role = role.strip.gsub(/\W/,'_')
 
-  user = Factory(role)
+  user = create(role)
   Given %{I sign in as "#{user.email}/#{user.password}"}
 end
 
