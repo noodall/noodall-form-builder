@@ -68,6 +68,30 @@ describe Noodall::FormResponseCsv do
       EOS
     end
     
+    it "should return all responses when :month == 'all' & :year == 'all' " do
+      conditions = { "month"=>"all", "year"=>"all" }
+      csv = Noodall::FormResponseCsv.new(@form, conditions).output
+
+      csv.should == <<-EOS.strip_heredoc
+        Name,Email,Date,IP,Form Location
+        Frank,frank@frankington.com,"December 01, 2012 09:53",127.0.0.1,http://rac.local/the-college
+        Jeff,jeff@jefferson.com,"August 14, 2012 11:05",127.0.0.1,http://rac.local/the-college
+        Bob,bob@bobbington.com,"February 11, 2011 09:53",127.0.0.1,http://rac.local/the-college
+      EOS
+    end
+    
+    it 'should return all responses when :month == :all & :year == :all' do
+      conditions = { :month => :all, :year => :all }
+      csv = Noodall::FormResponseCsv.new(@form, conditions).output
+
+      csv.should == <<-EOS.strip_heredoc
+        Name,Email,Date,IP,Form Location
+        Frank,frank@frankington.com,"December 01, 2012 09:53",127.0.0.1,http://rac.local/the-college
+        Jeff,jeff@jefferson.com,"August 14, 2012 11:05",127.0.0.1,http://rac.local/the-college
+        Bob,bob@bobbington.com,"February 11, 2011 09:53",127.0.0.1,http://rac.local/the-college
+      EOS
+    end
+    
   end
 
   it "should only include non-spam form responses" do
