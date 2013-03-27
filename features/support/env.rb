@@ -43,12 +43,12 @@ DatabaseCleaner.strategy = :truncation
 require 'factory_girl'
 require 'faker'
 
-Factory.definition_file_paths = [
+FactoryGirl.definition_file_paths = [
   File.expand_path("../../../spec/factories",  __FILE__)
 ]
-Factory.find_definitions
+FactoryGirl.find_definitions
 
-require 'factory_girl/step_definitions'
 require 'csv' #for checking CSV content
-#require 'ruby-debug'
 require 'qu-immediate'
+
+include FactoryGirl::Syntax::Methods

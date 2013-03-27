@@ -11,7 +11,11 @@ module Noodall
     timestamps!
 
     def filename
-      "#{form_title} responses #{date_conditions} #{download_date}.csv"
+      if for_all_responses?
+        "#{form_title} ALL responses #{download_date}.csv"
+      else
+        "#{form_title} responses #{date_conditions} #{download_date}.csv"
+      end
     end
 
     def email_when_ready(email)
@@ -34,6 +38,10 @@ module Noodall
 
     def download_date
       updated_at.to_formatted_s(:db)
+    end
+    
+    def for_all_responses?
+      conditions[:month].to_s == 'all' || conditions[:year].to_s == 'all' 
     end
   end
 end

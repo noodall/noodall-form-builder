@@ -32,4 +32,6 @@ RSpec.configure do |config|
 
   config.backtrace_clean_patterns = [
   ]
+  
+  config.include FactoryGirl::Syntax::Methods
 end

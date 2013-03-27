@@ -1,5 +1,5 @@
 Given /^I am editing content$/ do
-  @_content = Factory(:page_a)
+  @_content = create(:page_a)
   visit noodall_admin_node_path(@_content)
 end
 
@@ -32,7 +32,7 @@ When /^(?:|I )press "([^"]*)" within the component$/ do |button|
 end
 
 When /^(?:|I )select an image from the asset library$/ do
-  asset = Factory(:asset, :title => "My Image")
+  asset = create(:asset, :title => "My Image")
   within "#fancybox-content" do
     pending
   end
@@ -51,14 +51,14 @@ end
 
 Then /^I select an image from the asset library$/ do
   within "li.multi-file:last" do
-    asset = Factory(:asset, :title => "Image 1")
+    asset = create(:asset, :title => "Image 1")
     set_hidden_field "node[#{@_slot_type}_slot_0][contents][][asset_id]", :to => asset.id
   end
 end
 
 Then /^I add some images to from the asset library$/ do
   5.times do |i|
-    Factory(:asset, :title => "Image #{i}")
+    create(:asset, :title => "Image #{i}")
   end
   page.find(:css, 'span.add-multi-asset').click
   3.times do |i|
@@ -75,8 +75,8 @@ end
 
 
 Given /^content exists with a gallery$/ do
-  @_content = Factory(:page_a)
-  @_content.small_slot_0 = Factory(:gallery)
+  @_content = create(:page_a)
+  @_content.small_slot_0 = create(:gallery)
   @_content.save
 end
 
@@ -111,7 +111,7 @@ end
 Then /^I select some files from the asset library$/ do
   3.times do |i|
     within "li.multi-file:last" do
-      asset = Factory(:document_asset, :title => "Download #{i+1}")
+      asset = create(:document_asset, :title => "Download #{i+1}")
       set_hidden_field 'node[wide_slot_0][contents][][asset_id]', :to => asset.id
     end
     click_button "Publish"

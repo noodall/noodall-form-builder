@@ -9,7 +9,7 @@ end
 module Noodall
   class FormResponseCsv
     def initialize(form, conditions = {})
-      @form = form
+      @form       = form
       @conditions = conditions
     end
 
@@ -56,6 +56,7 @@ module Noodall
 
     def parse_conditions
       return [] if @conditions.empty?
+      return [] if @conditions['month'].to_s == 'all' || @conditions['year'].to_s == 'all'
 
       year = @conditions["year"].to_i
       month = @conditions["month"].to_i
