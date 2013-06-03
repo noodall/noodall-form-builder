@@ -29,11 +29,28 @@ module Noodall
           'comment-check',
           spam_attributes(form_response)
         )
+        
+        case response
+        when 'false'
+          not_spam = true
+        when 'true'
+          not_spam = false
+        else
+          # we have received an error message from Akismet
+          # we should not automatically mark the content as spam
+          not_spam = true
 
-        not_spam = (response == 'false' ? true : false)
+          # if exceptional is setup then we should report an error
+          if defined?(Exceptional)
+            error = StandardError.new("Akismet Error: #{response}")
+            Exceptional.handle(error, 'Akismet Comment Check Error')
+          end
+        end
+        
 
         [not_spam, nil]
       end
+      
 
       def mark_as_spam!(form_response)
         attributes = spam_attributes(form_response)
