@@ -1,7 +1,11 @@
 require 'rakismet'
+require 'spam/spam_checker_connection_error'
 
 module Noodall
   module FormBuilder
+    
+    class AkismetAPIError < SpamCheckerConnectionError; end
+    
     class AkismetSpamChecker
       attr_accessor :akismet
 
@@ -25,14 +29,22 @@ module Noodall
       end
 
       def check(form_response)
-        response = self.akismet.akismet_call(
-          'comment-check',
-          spam_attributes(form_response)
-        )
+        begin
+          response = self.akismet.akismet_call(
+            'comment-check',
+            spam_attributes(form_response)
+          )
+        
+          Rails.logger.info "AKISMET RESPONSE: #{response}"
 
-        not_spam = (response == 'false' ? true : false)
+          not_spam = (response == 'false' ? true : false)
 
-        [not_spam, nil]
+          [not_spam, nil]
+        rescue SocketError => e
+          # The Defensio API is regularly down. We raise an error here.
+          # Noodall::FormBuilder::FormResponse handles any spam checker errors in #check_for_spam
+          raise AkismetAPIError.new("Akismet API connection error.")
+        end
       end
 
       def mark_as_spam!(form_response)

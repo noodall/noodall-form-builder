@@ -79,12 +79,11 @@ module Noodall
         self.approved           = spam
         self.defensio_signature = metadata
         self.checked            = true
-      rescue Noodall::FormBuilder::DefensioAPIError => e
+      rescue Noodall::FormBuilder::SpamCheckerConnectionError => e
         # TODO - here we need to chuck the error at exceptional if it is available
         self.approved           = true
         self.defensio_signature = nil
         self.checked            = false
-      # TODO - handle akismet errors
       end
 
       true
