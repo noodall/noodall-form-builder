@@ -43,7 +43,8 @@ module Noodall
         # mail the response to the form recipient
         FormMailer.form_response(form, form_response).deliver unless form.email.blank?
         FormMailer.form_response_thankyou(form, form_response).deliver
-      rescue Net::SMTPSyntaxError
+      rescue Net::SMTPSyntaxError => error
+        Exceptional.handle(error, 'SMTP Error sending Form Responses') if defined?(Exceptional)
       end
     end
     
