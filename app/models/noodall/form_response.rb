@@ -80,10 +80,11 @@ module Noodall
         self.defensio_signature = metadata
         self.checked            = true
       rescue Noodall::FormBuilder::SpamCheckerConnectionError => e
-        # TODO - here we need to chuck the error at exceptional if it is available
         self.approved           = true
         self.defensio_signature = nil
         self.checked            = false
+        
+        Exceptional.handle(e, 'Spam Checker API Error') if defined?(Exceptional)
       end
 
       true
