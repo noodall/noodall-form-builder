@@ -34,8 +34,6 @@ module Noodall
             'comment-check',
             spam_attributes(form_response)
           )
-        
-          Rails.logger.info "AKISMET RESPONSE: #{response}"
 
           not_spam = (response == 'false' ? true : false)
 
