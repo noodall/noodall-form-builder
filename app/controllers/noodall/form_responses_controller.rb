@@ -23,12 +23,7 @@ module Noodall
           if @form_response.is_spam?
             logger.info "Form response was deemed to be spam: #{@form_response.inspect}"
           else
-            begin
-              # mail the response to the form recipient
-              FormMailer.form_response(@form, @form_response).deliver unless @form.email.blank?
-              FormMailer.form_response_thankyou(@form, @form_response).deliver
-            rescue Net::SMTPSyntaxError
-            end
+            send_responses(@form, @form_response)
           end
 
           format.html
@@ -39,5 +34,19 @@ module Noodall
         end
       end
     end
+    # create
+    
+    private
+    
+    def send_responses(form, form_response)
+      begin
+        # mail the response to the form recipient
+        FormMailer.form_response(form, form_response).deliver unless form.email.blank?
+        FormMailer.form_response_thankyou(form, form_response).deliver
+      rescue Net::SMTPSyntaxError
+      end
+    end
+    
+    
   end
 end
