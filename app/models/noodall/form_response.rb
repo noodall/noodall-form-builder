@@ -72,12 +72,20 @@ module Noodall
         self.approved = true
         return
       end
+      
+      begin
+        spam, metadata = self.class.spam_checker.check(self)
 
-      spam, metadata = self.class.spam_checker.check(self)
-
-      self.approved = spam
-      self.defensio_signature = metadata
-      self.checked = true
+        self.approved           = spam
+        self.defensio_signature = metadata
+        self.checked            = true
+      rescue Noodall::FormBuilder::SpamCheckerConnectionError => e
+        self.approved           = true
+        self.defensio_signature = nil
+        self.checked            = false
+        
+        Exceptional.handle(e, 'Spam Checker API Error') if defined?(Exceptional)
+      end
 
       true
     end

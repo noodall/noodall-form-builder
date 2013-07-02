@@ -5,7 +5,7 @@ module Noodall
     before_filter :find_form, :set_title
     
     # Rescue errors caused by the Defensio API being down
-    rescue_from Noodall::FormBuilder::DefensioAPIError do |exception|
+    rescue_from Noodall::FormBuilder::SpamCheckerConnectionError do |exception|
       redirect_to noodall_admin_form_form_responses_path(@form), :alert => exception.message
     end
 

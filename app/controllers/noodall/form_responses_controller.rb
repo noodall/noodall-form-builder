@@ -19,16 +19,11 @@ module Noodall
       @form_response.created_at = Time.zone.now
 
       respond_to do |format|
-        if @form_response.valid? and @form_response.save
+        if @form_response.save
           if @form_response.is_spam?
             logger.info "Form response was deemed to be spam: #{@form_response.inspect}"
           else
-            begin
-              # mail the response to the form recipient
-              FormMailer.form_response(@form, @form_response).deliver unless @form.email.blank?
-              FormMailer.form_response_thankyou(@form, @form_response).deliver
-            rescue Net::SMTPSyntaxError
-            end
+            send_responses(@form, @form_response)
           end
 
           format.html
@@ -39,5 +34,20 @@ module Noodall
         end
       end
     end
+    # create
+    
+    private
+    
+    def send_responses(form, form_response)
+      begin
+        # mail the response to the form recipient
+        FormMailer.form_response(form, form_response).deliver unless form.email.blank?
+        FormMailer.form_response_thankyou(form, form_response).deliver
+      rescue Net::SMTPSyntaxError => error
+        Exceptional.handle(error, 'SMTP Error sending Form Responses') if defined?(Exceptional)
+      end
+    end
+    
+    
   end
 end

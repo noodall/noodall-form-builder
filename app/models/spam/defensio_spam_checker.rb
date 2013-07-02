@@ -1,9 +1,10 @@
 require 'defensio'
+require 'spam/spam_checker_connection_error'
 
 module Noodall
   module FormBuilder
     
-    class DefensioAPIError < StandardError; end
+    class DefensioAPIError < SpamCheckerConnectionError; end
     
     class DefensioSpamChecker
       attr_accessor :defensio
@@ -26,8 +27,8 @@ module Noodall
           spam_attributes(form_response)
         )
         
-        # The Defensio API is regularly down. We raise an error here and let the application decide
-        # how to handle it
+        # The Defensio API is regularly down. We raise an error here.
+        # Noodall::FormBuilder::FormResponse handles any spam checker errors in #check_for_spam
         raise DefensioAPIError.new("Spam checking is currently unavailable. Please contact the administrator.") if status == 503
 
         [response['allow'], response['signature']]
