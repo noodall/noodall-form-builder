@@ -19,7 +19,7 @@ module Noodall
       @form_response.created_at = Time.zone.now
 
       respond_to do |format|
-        if @form_response.valid? and @form_response.save
+        if @form_response.save
           if @form_response.is_spam?
             logger.info "Form response was deemed to be spam: #{@form_response.inspect}"
           else
