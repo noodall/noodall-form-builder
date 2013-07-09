@@ -43,12 +43,14 @@ form select {
   width: 200px;
   height: 20px;
   clear: both;
+  float: right;
+  padding-top: 5px;
 }
 
 .email-me label, 
 .email-me input{
-  float:left;
-  margin-right: 10px;
+  float:right;
+  margin: 0;
 }
 
 
@@ -56,6 +58,7 @@ form select {
   border: 0 !important;
   padding: 0 !important;
   width: 10px !important;
+  margin: 0 10px;
 }
 
 ul.choices li a.button.delete-all-spam {
@@ -78,8 +81,8 @@ ul.choices li a.button.delete-all-spam:hover {
     <%= submit_tag "Download", :class => 'download-csv' %>
     <% if Noodall::FormBuilder.use_background_queue %>
       <div class="email-me">
-        <label for="email_me">Email me when ready</label>
         <%= check_box_tag :email_me %>
+        <label for="email_me">Email me when ready</label>
       </div>
     <% end %>
   <% end %>
@@ -92,8 +95,9 @@ ul.choices li a.button.delete-all-spam:hover {
     <%= submit_tag "Download ALL", :class => 'download-all-csv' %>
     <% if Noodall::FormBuilder.use_background_queue %>
       <div class="email-me">
-        <label for="email_me">Email me when ready</label>
         <%= check_box_tag :email_me %>
+        <label for="email_me">Email me when ready</label>
+
       </div>
     <% end %>
   <% end %>
