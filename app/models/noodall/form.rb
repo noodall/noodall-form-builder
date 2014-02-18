@@ -18,8 +18,10 @@ module Noodall
       def spam
         self.select {|r| r.spaminess >= (self.class.defensio_config['spam_threshold'] || 0.75)}
       end
+
       def build(attrs={})
-        doc = klass.new
+        c = Class.new(klass.new.class)
+        doc = c.new
         apply_scope(doc)
         doc.set_up_keys!
         doc.attributes = attrs

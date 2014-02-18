@@ -24,6 +24,10 @@ module Noodall
 
     belongs_to :form, :class => Noodall::Form, :foreign_key => 'noodall_form_id'
 
+    def self.model_name
+      ActiveModel::Name.new(self, nil, "Response")
+    end
+
     # Overriden to set up keys after find
     def initialize_from_database(attrs={})
       super.tap do
@@ -50,11 +54,13 @@ module Noodall
     # Create appropriate MongoMapper keys for current instance
     # based on the fields of the form it belongs to
     def set_up_keys!
+      return unless form
+
       form.fields.each do |f|
-        class_eval do
-          key f.underscored_name, f.keys['default'].type, :required => f.required, :default => f.default
-        end
-      end if form
+        next if self.keys.include?(f.underscored_name)
+
+        self.class.send(:key, f.underscored_name, f.keys['default'].type, :required => f.required, :default => f.default)
+      end
     end
 
     # Merge meta keys with real keys
